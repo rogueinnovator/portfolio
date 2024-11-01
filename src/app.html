@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script src=" https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js "></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+			integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+			rel="stylesheet"
+		/>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover" class="bg-black text-white relative">
+		<div style="display: contents" class="relative z-[1]">%sveltekit.body%</div>
+		<div class="absolute min-h-screen top-0 left-0 w-full z-[-1] opacity-70">
+			<div class="absolute inset-0" id="particles-js"></div>
+		</div>
+		<script>
+			particlesJS.load('particles-js', 'assets/particlesjs-config.json', function () {
+				console.log('callback - particles-js config loaded');
+			});
+		</script>
+	</body>
+</html>
