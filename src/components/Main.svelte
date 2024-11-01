@@ -27,13 +27,12 @@
 			class="flex flex-col ml-5 lg:justify-center text-center lg:text-left gap-6 md:gap-8 lg:gap-10"
 		>
 			<h2 class="font-semibold text-4xl sm:text-5xl md:text-6xl">
-				I'm <span class="poppins text-violet-400">MUHAMMAD </span> H U Z A I F A
+				I'm <span class="poppins text-violet-400">MUHAMMAD </span> HUZAIFA
 				<br />{text}
 				<span class="poppins text-violet-400">...Developer</span>
 			</h2>
 			<p class="font-semibold sm:text-lg md:text-xl">
-				I <span class="text-pink-500"> ... L O V E <br /> </span> IOT cyber security and system stuffs,
-				But unfortunately in in WEB dev
+				Full-Stack Developer with Expertise in Blockchain, IoT, and Scalable Web Solutions
 			</p>
 			<a
 				href="/projects"
