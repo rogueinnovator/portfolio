@@ -7,7 +7,6 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '../store/store';
 	import Loading from '../components/Loading.svelte';
-
 	type Project = {
 		id: string;
 		name: string;
@@ -73,7 +72,7 @@
 	}
 </script>
 
-<div class="relative flex flex-col max-w-full mx-auto w-full text-sm sm:text-base min-h-screen">
+<div class="relative flex flex-col max-w-full mx-auto w-full text-sm sm:text-base min-h-screen overflow-hidden">
 	{#if loading}
 		<Loading />
 	{:else}

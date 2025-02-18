@@ -9,37 +9,24 @@
 				href="https://www.linkedin.com/in/muhammad-huzaifa-ali-49aa94259/"
 				aria-label="LinkedIn Profile"
 			>
-				<span class="fa-brands fa-linkedin-in" aria-hidden="true"></span>
+				<img
+					class="w-11 h-11"
+					src="https://user-images.githubusercontent.com/74038190/235294012-0a55e343-37ad-4b0f-924f-c8431d9d2483.gif"
+					alt=""
+				/>
 			</a>
-
 			<!-- GitHub -->
 			<a href="https://github.com/rogueinnovator" aria-label="GitHub Profile">
 				<span class="fa-brands fa-github" aria-hidden="true"></span>
 			</a>
-			<!-- Twitter -->
-			<a href="https://github.com/rogueinnovator" aria-label="twitter Profile">
-				<span class="fa-brands fa-twitter" aria-hidden="true"></span>
-			</a>
 			<!-- Thread -->
 			<a href="https://www.threads.net/@rogue_innovator?hl=en" aria-label="thread profile">
-				<span class="fa-brands fa-threads" aria-hidden="true"></span>
+				<img
+					class="w-11 h-11"
+					src="https://user-images.githubusercontent.com/74038190/235294015-47144047-25ab-417c-af1b-6746820a20ff.gif"
+					alt=""
+				/>
 			</a>
 		</div>
 	</div>
 </footer>
-<!-- <a
-href="https://www.linkedin.com/in/muhammad-huzaifa-ali-49aa94259/"
-aria-label="LinkedIn Profile"
->
-<span class="fa-brands fa-linkedin-in" aria-hidden="true"></span>
-</a>
-
-<a href="https://github.com/rogueinnovator" aria-label="GitHub Profile">
-<span class="fa-brands fa-github" aria-hidden="true"></span>
-</a>
-<a href="https://github.com/rogueinnovator" aria-label="twitter Profile">
-<span class="fa-brands fa-twitter" aria-hidden="true"></span>
-</a>
-<a href="https://www.threads.net/@rogue_innovator?hl=en" aria-label="thread profile">
-<span class="fa-brands fa-threads" aria-hidden="true"></span>
-</a> -->

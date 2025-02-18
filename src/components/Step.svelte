@@ -4,8 +4,7 @@
 
 <a
 	href={step.URL}
-	target="_blank"
-	class="relative p-4 sm:p-6 md:p-8 flex flex-col items-center gap-4 rounded-3xl text-center cursor-pointer group hover:border border-solid border-violet-400 duration-200"
+	class="relative p-4 sm:p-6 md:p-8 flex flex-col items-center gap-4 rounded-3xl text-center cursor-pointer group"
 >
 	<h3
 		class="font-semibold text-violet-500 sm:text-2xl md:text-3xl"
@@ -22,7 +21,7 @@
 				class="w-full h-64 rounded-lg transition-transform duration-300 group-hover:scale-105"
 			/>
 			<p
-				class="absolute inset-0 flex items-center justify-center sm:text-sm md:text-xl text-white bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+				class="relative bottom-24 py-3 pb-10 flex items-center md:text-xl text-white bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-t-2xl"
 			>
 				{step.description}
 			</p>
