@@ -23,27 +23,34 @@
 	}
 </script>
 
-<div class="pt-48 flex justify-center">
-	<Card.Root class="w-[700px] h-[400px] bg-transparent">
-		<Card.Content>
+<div class="pt-48 flex justify-center items-center">
+	<div class="w-[700px] h-[400px] bg-transparent border rounded-2xl">
+		<div>
 			<form on:submit|preventDefault={handleSignIn} class="flex justify-center pt-28">
-				<div class="grid w-64 items-center gap-4">
-					<div class="flex flex-col space-y-1.5 text-white">
-						<Input type="email" bind:value={email} placeholder="email" required />
-					</div>
-					<div class="flex flex-col space-y-1.5 text-white">
-						<Input type="password" bind:value={password} placeholder="password" required />
-					</div>
-					<Button type="submit" variant="outline">signIn</Button>
+				<div class="grid w-64 items-center gap-4 pt-5">
+					<input
+						type="email"
+						bind:value={email}
+						placeholder="email"
+						required
+						class="border py-1 bg-transparent rounded-xl pl-4"
+					/>
+					<input
+						type="password"
+						bind:value={password}
+						placeholder="password"
+						required
+						class="border py-1 bg-transparent rounded-xl pl-4"
+					/>
+					<button class="bg-white rounded-xl py-1 text-black" type="submit">SIGNIN</button>
 				</div>
 			</form>
-		</Card.Content>
-		<Card.Footer class="flex justify-center pt-5">
-			<div class="flex justify-center">
-				{#if errorMessage}
-					<p class="text-red-600">{errorMessage}</p>
-				{/if}
-			</div>
-		</Card.Footer>
-	</Card.Root>
+		</div>
+		<div class="flex justify-center">
+			<h2>message</h2>
+			{#if errorMessage}
+				<p class="text-red-600">{errorMessage}</p>
+			{/if}
+		</div>
+	</div>
 </div>

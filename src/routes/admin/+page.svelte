@@ -9,7 +9,8 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { renameFile } from '../../utils/renameFile';
-
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	type Project = {
 		id?: string;
 		name: string;
@@ -40,7 +41,7 @@
 
 	const logOut = () => {
 		authHandler.logOut();
-		window.location.href = '/';
+		goto('/');
 	};
 
 	const createNewProject = async () => {
@@ -84,7 +85,7 @@
 				on:click={logOut}
 				class="absolute bottom-4 left-4 bg-transparent text-red-700 px-4 py-2 rounded-full flex items-center duration-300 hover:bg-red-600 hover:text-white"
 			>
-				<i class="fas fa-sign-out-alt mr-2"></i> logout
+				<i class="fas fa-sign-out-alt mr-2 rotate-180"></i> logout
 			</button>
 		</div>
 		<div class="basis-2/3 bg-slate-700">
@@ -157,7 +158,14 @@
 								<Input
 									type="file"
 									id="file"
-									on:change={(e) => (file = e.target.files?.[0] || null)}
+									on:change={(e) => {
+										const target = e.target as HTMLInputElement | null;
+										if (target && target.files) {
+											file = target.files[0];
+										} else {
+											file = null;
+										}
+									}}
 									class="col-span-3"
 								/>
 							</div>

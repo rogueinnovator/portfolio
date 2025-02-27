@@ -3,7 +3,7 @@
 	import gsap from 'gsap';
 	import Projects from './Projects.svelte';
 	import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-	import FrameWorks from './FrameWorks.svelte';
+	import Display from './DisplayBoard.svelte';
 	let text: string = 'Junior';
 	let isVisible: boolean = true;
 	let textRef: HTMLElement | null = null;
@@ -11,7 +11,29 @@
 	let text2: HTMLElement | null = null;
 	let projects: HTMLElement | null = null;
 	let frameworks: HTMLElement | null = null;
-
+	let tools: HTMLElement | null = null;
+	const frameWorksIcons = [
+		'https://img.icons8.com/?size=100&id=Mm35TzLKahiF&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=Xf1sHBmY73hA&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=egQrEphjrirz&format=png&color=FFFFFF',
+		'https://img.icons8.com/?size=100&id=wPohyHO_qO1a&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=111474&format=png&color=FFFFFF',
+		'https://img.icons8.com/?size=100&id=MWiBjkuHeMVq&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=9Gfx4Dfxl0JK&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=CIAZz2CYc6Kc&format=png&color=000000'
+	];
+	const toolsIcons = [
+		'https://img.icons8.com/?size=100&id=cdYUlRaag9G9&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=17842&format=png&color=000000',
+		'https://archive.trufflesuite.com/assets/logo.png',
+		'https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png',
+		'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png',
+		'https://img.icons8.com/?size=100&id=bosfpvRzNOG8&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=567890&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=098765&format=png&color=000000',
+		'https://img.icons8.com/?size=100&id=234567&format=png&color=000000',
+		'./images/gsap.png'
+	];
 	// Register GSAP Plugins
 	gsap.registerPlugin(ScrollTrigger);
 
@@ -85,22 +107,6 @@
 			}
 		);
 
-		// gsap.fromTo(
-		// 	frameworks,
-		// 	{ x: '-100000%' },
-		// 	{
-		// 		x: '0%',
-		// 		duration: 3,
-		// 		ease: 'power2.out',
-		// 		scrollTrigger: {
-		// 			trigger: frameworks,
-		// 			start: 'top top+=500',
-		// 			end: 'top 60%',
-		// 			scrub: true
-		// 		}
-		// 	}
-		// );
-
 		// Change text animation loop
 		setTimeout(changeText, 2500);
 		setInterval(() => (isVisible = !isVisible), 1500);
@@ -116,7 +122,7 @@
 			onmouseleave={() => gsap.to(textRef, { scale: 1, textShadow: 'none' })}
 			class="text-3xl md:text-4xl lg:text-7xl font-extrabold text-center bg-gradient-to-r from-violet-400 via-indigo-500 to-violet-400 bg-clip-text text-transparent transition-all duration-500 font-['Playfair_Display']"
 		>
-			I am Muhammad Huzaifa?
+			I am Muhammad Huzaifa
 		</h2>
 	</div>
 	<hr class="mt-7" />
@@ -129,6 +135,12 @@
 				bind:this={text1}
 				class="font-semibold text-3xl md:text-5xl text-violet-400 font-['Raleway'] tracking-wide text-nowrap"
 			>
+				<span class="inline-flex flex-row justify-center items-center"
+					><img
+						class="w-14 h-10"
+						src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif"
+						alt="logo"
+					/></span
 				> Full stack web Developer
 			</h2>
 
@@ -136,10 +148,17 @@
 				bind:this={text2}
 				class="font-semibold text-3xl md:text-5xl text-violet-400 font-['Raleway'] tracking-wide text-nowrap"
 			>
-				> Blockchain Developer
+				<span class="inline-flex flex-row justify-center items-center"
+					><img
+						class="w-14 h-10"
+						src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif"
+						alt="logo"
+					/></span
+				>
+				Blockchain Developer
 			</h2>
 
-			<p class="font-semibold sm:text-lg md:text-xl">
+			<p class="font-semibold sm:text-lg md:text-xl text-center">
 				Full-Stack Developer with Expertise in Blockchain, IoT, and Scalable Web Solutions
 			</p>
 		</div>
@@ -156,7 +175,10 @@
 	<div>
 		<div>
 			<div bind:this={frameworks}>
-				<FrameWorks />
+				<Display icons={frameWorksIcons} title={'FrameWorks'} />
+			</div>
+			<div class="mt-36" bind:this={tools}>
+				<Display icons={toolsIcons} title={'Tools'} />
 			</div>
 			<div bind:this={projects}>
 				<Projects />

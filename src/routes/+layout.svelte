@@ -7,13 +7,14 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '../store/store';
 	import Loading from '../components/Loading.svelte';
+	import { page } from '$app/stores';
 	type Project = {
 		id: string;
 		name: string;
 		description: string;
 	};
 
-	let currentPath: string = '';
+	$: currentPath = $page.url.pathname;
 	let projects: Project[] = [];
 	let isAuthenticated: boolean = false;
 	let loading: boolean = true;
@@ -45,7 +46,6 @@
 		const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
 			currentPath = window.location.pathname;
 			isAuthenticated = !!user;
-			loading = false;
 			if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
 				window.location.href = '/';
 				return;
@@ -58,6 +58,7 @@
 				window.location.href = '/admin';
 				return;
 			}
+			loading = false;
 		});
 
 		return unsubscribeAuth;
@@ -72,7 +73,9 @@
 	}
 </script>
 
-<div class="relative flex flex-col max-w-full mx-auto w-full text-sm sm:text-base min-h-screen overflow-hidden">
+<div
+	class="relative flex flex-col max-w-full mx-auto w-full text-sm sm:text-base min-h-screen overflow-hidden"
+>
 	{#if loading}
 		<Loading />
 	{:else}
