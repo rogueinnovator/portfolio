@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Step from './Step.svelte';
 	import { authStore } from '../store/store';
+	import { onMount } from 'svelte';
+	let projects: HTMLElement | null = null;
 	type Steps = {
 		name: string;
 		icon: string;
@@ -12,15 +14,6 @@
 	authStore.subscribe((curr) => {
 		steps = curr.data as Steps[];
 	});
-	// $: storeValue = $authStore;
-	// console.log();
-
-	// $: {
-	// 	if (storeValue && storeValue.data) {
-	// 		steps = storeValue.data as Steps[];
-	// 		console.log('this is value', storeValue.data);
-	// 	}
-	// }
 	export const Projects: Steps[] = steps;
 </script>
 
@@ -33,7 +26,7 @@
 			</h3>
 		</div>
 		<hr />
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-10 pb-14">
+		<div bind:this={projects} class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-10 pb-14">
 			{#each steps as step}
 				<Step {step}></Step>
 			{/each}

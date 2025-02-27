@@ -69,7 +69,7 @@
 
 		gsap.fromTo(
 			projects,
-			{ y: '100%', opacity: 0 },
+			{ y: '80%', opacity: 0 },
 			{
 				y: '0%',
 				opacity: 1,
@@ -77,29 +77,29 @@
 				ease: 'power2.out',
 				scrollTrigger: {
 					trigger: projects,
-					start: 'top 90%',
-					end: 'top 60%',
-					scrub: true
+					start: 'top top+=400',
+					end: '+=600',
+					scrub: 1,
+					markers: true
 				}
 			}
 		);
 
-		gsap.fromTo(
-			frameworks,
-			{ x: '-100000%', opacity: 0 },
-			{
-				x: '0%',
-				opacity: 1,
-				duration: 4.5,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: frameworks,
-					start: 'top 80%',
-					end: 'top 60%',
-					scrub: true
-				}
-			}
-		);
+		// gsap.fromTo(
+		// 	frameworks,
+		// 	{ x: '-100000%' },
+		// 	{
+		// 		x: '0%',
+		// 		duration: 3,
+		// 		ease: 'power2.out',
+		// 		scrollTrigger: {
+		// 			trigger: frameworks,
+		// 			start: 'top top+=500',
+		// 			end: 'top 60%',
+		// 			scrub: true
+		// 		}
+		// 	}
+		// );
 
 		// Change text animation loop
 		setTimeout(changeText, 2500);
@@ -123,7 +123,7 @@
 
 	<section id="introPage" class="grid grid-cols-1 lg:grid-cols-2 gap-10 py-8 sm:py-14">
 		<div
-			class="flex flex-col ml-5 lg:justify-center text-center lg:text-left gap-6 md:gap-8 lg:gap-10"
+			class="flex flex-col ml-5 lg:justify-center text-center lg:text-left gap-6 md:gap-8 lg:gap-10 mt-36"
 		>
 			<h2
 				bind:this={text1}
