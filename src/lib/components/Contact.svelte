@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { fadeInUp, fadeInLeft, fadeInRight } from '$lib/animations/gsap';
   import { browser } from '$app/environment';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+  import { db } from '$lib/config/firebase';
 
   // Form data
   let name = '';
@@ -10,6 +12,7 @@
   let isSubmitting = false;
   let submitSuccess = false;
   let submitError = false;
+  let errorMessage = '';
 
   // Elements for animation
   let contactHeading: HTMLElement;
@@ -39,10 +42,21 @@
     isSubmitting = true;
     submitSuccess = false;
     submitError = false;
+    errorMessage = '';
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Validate form
+      if (!name || !email || !message) {
+        throw new Error('Please fill in all required fields.');
+      }
+
+      // Save message to Firebase
+      await addDoc(collection(db, 'messages'), {
+        name,
+        email,
+        message,
+        createdAt: serverTimestamp()
+      });
       
       // Reset form
       name = '';
@@ -51,6 +65,7 @@
       submitSuccess = true;
     } catch (error) {
       submitError = true;
+      errorMessage = error instanceof Error ? error.message : 'Error submitting form. Please try again.';
       console.error('Error submitting form:', error);
     } finally {
       isSubmitting = false;
@@ -151,7 +166,7 @@
           
           {#if submitError}
             <div class="p-4 bg-red-900/30 border border-red-500 rounded-lg text-red-400 text-sm">
-              There was an error sending your message. Please try again later.
+              {errorMessage || 'There was an error sending your message. Please try again later.'}
             </div>
           {/if}
         </form>

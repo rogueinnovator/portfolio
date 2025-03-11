@@ -37,6 +37,7 @@
 	"dependencies": {
 		"@tabler/icons-svelte": "^3.21.0",
 		"firebase": "^11.0.1",
+		"firebase-admin": "^13.2.0",
 		"gsap": "^3.12.7",
 		"remixicon": "^4.6.0",
 		"svelte-motion": "^0.12.2"

@@ -13,12 +13,12 @@
 
 	// Reactive declarations
 	$: currentPath = $page.url.pathname;
-	
+
 	// State
 	let loading = true;
 	let isAuthenticated = false;
 	let projects: Project[] = [];
-	
+
 	// Non-auth routes
 	const nonAuthRoutes = ['/', '/signIn'];
 
@@ -49,23 +49,23 @@
 		const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
 			currentPath = window.location.pathname;
 			isAuthenticated = !!user;
-			
+
 			// Handle auth redirects
 			if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
 				window.location.href = '/';
 				return;
 			}
-			
+
 			if (!isAuthenticated && currentPath === '/admin') {
 				window.location.href = '/';
 				return;
 			}
-			
+
 			if (isAuthenticated && currentPath === '/signIn') {
 				window.location.href = '/admin';
 				return;
 			}
-			
+
 			loading = false;
 		});
 
@@ -80,7 +80,7 @@
 	// Update scroll position
 	function handleScroll() {
 		if (browser) {
-			scrollStore.update(state => ({
+			scrollStore.update((state) => ({
 				...state,
 				y: window.scrollY,
 				innerHeight: window.innerHeight,
@@ -103,28 +103,38 @@
 				class="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-lg hover:bg-violet-700 transition-all duration-300"
 				aria-label="Scroll to top"
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="m18 15-6-6-6 6"/>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m18 15-6-6-6 6" />
 				</svg>
 			</button>
 		{/if}
-		
+
 		<!-- Header -->
 		{#if currentPath !== '/admin'}
 			<Header />
 		{/if}
-		
+
 		<!-- Main Content -->
 		<main class="flex-grow">
 			<slot />
 		</main>
-		
+
 		<!-- Footer -->
 		{#if currentPath !== '/signIn' && currentPath !== '/admin'}
 			<Footer />
 		{/if}
 	{/if}
-	
+
 	<!-- Particles Background -->
 	<div class="fixed inset-0 z-[-1] opacity-70">
 		<div id="particles-js" class="absolute inset-0"></div>

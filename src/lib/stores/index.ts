@@ -1,5 +1,7 @@
 import { writable } from 'svelte/store';
 import type { Project } from '$lib/types';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '$lib/config/firebase';
 
 // Theme store
 export const theme = writable<'light' | 'dark'>('dark');
@@ -27,6 +29,19 @@ export const authStore = writable<{
   user: null,
   data: []
 });
+
+// Auth handler for authentication operations
+export const authHandler = {
+  signUp: async (email: string, pass: any) => {
+    await createUserWithEmailAndPassword(auth, email, pass);
+  },
+  signIn: async (email: string, pass: any) => {
+    await signInWithEmailAndPassword(auth, email, pass);
+  },
+  logOut: async () => {
+    await signOut(auth);
+  }
+};
 
 // Navigation store
 export const navigationStore = writable<{

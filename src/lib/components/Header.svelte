@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { scrollStore, navigationStore } from '$lib/stores';
+  import { scrollStore, navigationStore, authStore } from '$lib/stores';
   import { fade, slide } from 'svelte/transition';
   import { getStorage, ref, getDownloadURL } from 'firebase/storage';
   import { hoverAnimation } from '$lib/animations/gsap';
   import { browser } from '$app/environment';
+  import { auth } from '$lib/config/firebase';
 
   // Navigation links
   const navLinks = [
@@ -18,6 +19,7 @@
   // CV URL
   let cvUrl = '';
   let mobileMenuOpen = false;
+  let isAuthenticated = false;
 
   // Get CV URL from Firebase Storage
   async function getCvUrl() {
@@ -41,6 +43,13 @@
         hoverAnimation(button as HTMLElement, 1.05);
       });
     }
+
+    // Check authentication status
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      isAuthenticated = !!user;
+    });
+
+    return unsubscribe;
   });
 
   // Reactive declarations
@@ -100,8 +109,22 @@
       {/each}
     </nav>
 
-    <!-- CTA Button -->
-    <div class="hidden md:block">
+    <!-- CTA Buttons -->
+    <div class="hidden md:flex items-center gap-3">
+      <!-- Sign In Button -->
+      <a 
+        href={isAuthenticated ? '/admin' : '/signIn'} 
+        class="nav-button inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-white font-medium text-sm transition-all duration-300"
+        title={isAuthenticated ? 'Admin Dashboard' : 'Sign In'}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="sr-only">{isAuthenticated ? 'Admin Dashboard' : 'Sign In'}</span>
+      </a>
+
+      <!-- Resume Button -->
       <a 
         href={cvUrl} 
         target="_blank" 
@@ -169,6 +192,18 @@
             {link.name}
           </a>
         {/each}
+        
+        <!-- Mobile Sign In Button -->
+        <a 
+          href={isAuthenticated ? '/admin' : '/signIn'} 
+          class="py-2 px-4 rounded-lg bg-gray-800 hover:bg-gray-700 text-white font-medium text-base transition-all duration-300 flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>{isAuthenticated ? 'Admin Dashboard' : 'Sign In'}</span>
+        </a>
         
         <!-- Mobile CTA Button -->
         <a 
