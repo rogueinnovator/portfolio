@@ -32,9 +32,6 @@ export const authStore = writable<{
 
 // Auth handler for authentication operations
 export const authHandler = {
-  signUp: async (email: string, pass: any) => {
-    await createUserWithEmailAndPassword(auth, email, pass);
-  },
   signIn: async (email: string, pass: any) => {
     await signInWithEmailAndPassword(auth, email, pass);
   },

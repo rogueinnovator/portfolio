@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { auth } from '$lib/config/firebase';
-	import { signInWithEmailAndPassword } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { fadeInUp } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
+	import { authHandler } from '$lib/stores';
 
 	// Form data
 	let email = '';
 	let password = '';
 	let isSubmitting = false;
 	let error = '';
-	
+
 	// Elements for animation
 	let formContainer: HTMLElement;
 
@@ -24,29 +23,12 @@
 
 		isSubmitting = true;
 		error = '';
-
 		try {
-			const userCredential = await signInWithEmailAndPassword(auth, email, password);
-			const idToken = await userCredential.user.getIdToken();
-			
-			// Submit the token to the server
-			const response = await fetch('/signIn', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ idToken })
-			});
-			
-			const result = await response.json();
-			if (result.success) {
-				goto('/admin');
-			} else {
-				error = 'Failed to create session. Please try again.';
-			}
+			const data = await authHandler.signIn(email, password);
+			console.log('this is data', data);
+			goto('/admin');
 		} catch (err: any) {
 			console.error('Error signing in:', err);
-			
 			// Handle different Firebase auth errors
 			if (err.code === 'auth/invalid-credential') {
 				error = 'Invalid email or password. Please try again.';
@@ -75,13 +57,15 @@
 </svelte:head>
 
 <div class="min-h-screen flex items-center justify-center bg-black px-4">
-	<div 
+	<div
 		bind:this={formContainer}
 		class="max-w-md w-full bg-gray-900/80 backdrop-blur-sm rounded-xl border border-gray-800 shadow-xl p-8"
 	>
 		<!-- Header -->
 		<div class="text-center mb-8">
-			<div class="w-16 h-16 bg-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
+			<div
+				class="w-16 h-16 bg-violet-600 rounded-full flex items-center justify-center mx-auto mb-4"
+			>
 				<i class="fa-solid fa-user-shield text-2xl"></i>
 			</div>
 			<h1 class="text-2xl font-bold">Admin Sign In</h1>
@@ -106,10 +90,10 @@
 					bind:value={email}
 					required
 					class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300 text-white"
-					placeholder="admin@example.com"
+					placeholder="example@gmail.com"
 				/>
 			</div>
-			
+
 			<!-- Password Input -->
 			<div>
 				<label for="password" class="block text-sm font-medium text-gray-400 mb-2">Password</label>
@@ -119,10 +103,10 @@
 					bind:value={password}
 					required
 					class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300 text-white"
-					placeholder="••••••••"
+					placeholder=""
 				/>
 			</div>
-			
+
 			<!-- Submit Button -->
 			<button
 				type="submit"
@@ -130,14 +114,16 @@
 				class="w-full px-6 py-3 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-violet-500/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
 			>
 				{#if isSubmitting}
-					<div class="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+					<div
+						class="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"
+					></div>
 					<span>Signing In...</span>
 				{:else}
 					<i class="fa-solid fa-sign-in-alt"></i>
 					<span>Sign In</span>
 				{/if}
 			</button>
-			
+
 			<!-- Back to Home -->
 			<div class="text-center mt-6">
 				<a href="/" class="text-violet-400 hover:text-violet-300 transition-colors duration-300">
@@ -147,4 +133,3 @@
 		</form>
 	</div>
 </div>
-

@@ -56,15 +56,15 @@
 				return;
 			}
 
-			if (!isAuthenticated && currentPath === '/admin') {
-				window.location.href = '/';
-				return;
-			}
+			// if (!isAuthenticated && currentPath === '/admin') {
+			// 	window.location.href = '/';
+			// 	return;
+			// }
 
-			if (isAuthenticated && currentPath === '/signIn') {
-				window.location.href = '/admin';
-				return;
-			}
+			// if (isAuthenticated && currentPath === '/signIn') {
+			// 	window.location.href = '/admin';
+			// 	return;
+			// }
 
 			loading = false;
 		});
