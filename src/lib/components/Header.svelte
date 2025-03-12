@@ -6,8 +6,7 @@
   import { getStorage, ref, getDownloadURL } from 'firebase/storage';
   import { hoverAnimation } from '$lib/animations/gsap';
   import { browser } from '$app/environment';
-  import { auth } from '$lib/config/firebase';
-
+	import { auth } from '$lib/fireBaseConfig';
   // Navigation links
   const navLinks = [
     { name: 'Home', href: '/' },

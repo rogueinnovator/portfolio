@@ -7,7 +7,7 @@
 	// Skill categories
 	const categories = [
 		{
-			name: 'Frontend',
+			name: 'Frameworks',
 			icons: [
 				{
 					src: 'https://img.icons8.com/?size=100&id=Mm35TzLKahiF&format=png&color=000000',
@@ -28,6 +28,16 @@
 					src: 'https://img.icons8.com/?size=100&id=MWiBjkuHeMVq&format=png&color=000000',
 					alt: 'Next',
 					name: 'Next.js'
+				},
+				{
+					src: 'https://img.icons8.com/?size=100&id=9Gfx4Dfxl0JK&format=png&color=000000',
+					alt: 'Node.js',
+					name: 'Express'
+				},
+				{
+					src: 'https://img.icons8.com/?size=100&id=CIAZz2CYc6Kc&format=png&color=000000',
+					alt: 'Node.js',
+					name: 'Tailwind Css'
 				}
 			]
 		},
@@ -49,20 +59,15 @@
 					alt: 'Docker',
 					name: 'Docker'
 				},
-        {
-					src: 'https://img.icons8.com/?size=100&id=9Gfx4Dfxl0JK&format=png&color=000000',
-					alt: 'Node.js',
-					name: 'Express'
-				},
-				{
-					src: 'https://img.icons8.com/?size=100&id=cdYUlRaag9G9&format=png&color=000000',
-					alt: 'Firebase',
-					name: 'Docker'
-				},
 				{
 					src: 'https://img.icons8.com/?size=100&id=bosfpvRzNOG8&format=png&color=000000',
 					alt: 'MongoDB',
 					name: 'MongoDB'
+				},
+				{
+					src: 'https://avatars.githubusercontent.com/u/22205159?s=280&v=4',
+					alt: 'truffle',
+					name: 'Truffle'
 				},
 				{ src: '/images/gsap.png', alt: 'GSAP', name: 'GSAP' }
 			]

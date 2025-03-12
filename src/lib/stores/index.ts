@@ -1,8 +1,7 @@
 import { writable } from 'svelte/store';
 import type { Project } from '$lib/types';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '$lib/config/firebase';
-
+import {  signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '$lib/fireBaseConfig';
 // Theme store
 export const theme = writable<'light' | 'dark'>('dark');
 

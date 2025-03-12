@@ -2,9 +2,9 @@
   import { onMount } from 'svelte';
   import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
   import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-  import { db } from '$lib/config/firebase';
   import { goto } from '$app/navigation';
   import type { Project } from '$lib/types';
+	import { db } from '$lib/fireBaseConfig';
 
   // Form state
   let name = '';

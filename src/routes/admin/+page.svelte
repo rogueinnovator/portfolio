@@ -1,8 +1,16 @@
 <script lang="ts">
 	import { authHandler, authStore } from '$lib/stores';
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
-	import { collection, deleteDoc, addDoc, doc, getDocs, query, orderBy, limit } from 'firebase/firestore';
-	import { db } from '$lib/config/firebase';
+	import {
+		collection,
+		deleteDoc,
+		addDoc,
+		doc,
+		getDocs,
+		query,
+		orderBy,
+		limit
+	} from 'firebase/firestore';
 	import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import storage functions
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
@@ -12,6 +20,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { db } from '$lib/fireBaseConfig';
+
 	type Project = {
 		id?: string;
 		name: string;
@@ -90,17 +100,28 @@
 	onMount(async () => {
 		try {
 			// Fetch projects
-			const projectsQuery = query(collection(db, 'projects'), orderBy('createdAt', 'desc'), limit(5));
+			const projectsQuery = query(
+				collection(db, 'projects'),
+				orderBy('createdAt', 'desc'),
+				limit(5)
+			);
 			const projectsSnapshot = await getDocs(projectsQuery);
+			console.log(projectsSnapshot.docs, 'this is project snapshot');
 			totalProjects = projectsSnapshot.size;
-			recentProjects = projectsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
+			recentProjects = projectsSnapshot.docs.map(
+				(doc) => ({ id: doc.id, ...doc.data() }) as Project
+			);
 
 			// Fetch messages
 			try {
-				const messagesQuery = query(collection(db, 'messages'), orderBy('createdAt', 'desc'), limit(5));
+				const messagesQuery = query(
+					collection(db, 'messages'),
+					orderBy('createdAt', 'desc'),
+					limit(5)
+				);
 				const messagesSnapshot = await getDocs(messagesQuery);
 				totalMessages = messagesSnapshot.size;
-				recentMessages = messagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+				recentMessages = messagesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 			} catch (error) {
 				console.log('No messages collection found');
 				totalMessages = 0;
@@ -125,7 +146,7 @@
 	// Format date
 	function formatDate(timestamp: any) {
 		if (!timestamp) return 'N/A';
-		
+
 		const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
 		return date.toLocaleDateString('en-US', {
 			year: 'numeric',
@@ -302,7 +323,9 @@
 			<div class="p-6">
 				{#if isLoading}
 					<div class="flex justify-center py-8">
-						<div class="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin"></div>
+						<div
+							class="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin"
+						></div>
 					</div>
 				{:else if recentProjects.length === 0}
 					<div class="text-center py-8 text-gray-400">
@@ -316,7 +339,9 @@
 								<div class="flex justify-between">
 									<div>
 										<h4 class="font-medium text-white">{project.name}</h4>
-										<p class="text-sm text-gray-400 mt-1">{project.description?.substring(0, 60)}...</p>
+										<p class="text-sm text-gray-400 mt-1">
+											{project.description?.substring(0, 60)}...
+										</p>
 									</div>
 									<div class="text-sm text-gray-500">
 										{project.createdAt ? formatDate(project.createdAt) : 'N/A'}
@@ -328,7 +353,9 @@
 				{/if}
 			</div>
 			<div class="bg-gray-900/50 p-4 border-t border-gray-800">
-				<a href="/admin/projects" class="text-violet-400 hover:underline text-sm">View all projects →</a>
+				<a href="/admin/projects" class="text-violet-400 hover:underline text-sm"
+					>View all projects →</a
+				>
 			</div>
 		</div>
 
@@ -340,7 +367,9 @@
 			<div class="p-6">
 				{#if isLoading}
 					<div class="flex justify-center py-8">
-						<div class="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+						<div
+							class="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"
+						></div>
 					</div>
 				{:else if recentMessages.length === 0}
 					<div class="text-center py-8 text-gray-400">
@@ -366,7 +395,9 @@
 				{/if}
 			</div>
 			<div class="bg-gray-900/50 p-4 border-t border-gray-800">
-				<a href="/admin/messages" class="text-indigo-400 hover:underline text-sm">View all messages →</a>
+				<a href="/admin/messages" class="text-indigo-400 hover:underline text-sm"
+					>View all messages →</a
+				>
 			</div>
 		</div>
 	</div>
@@ -375,8 +406,8 @@
 	<div class="bg-gray-900 rounded-xl border border-gray-800 shadow-lg p-6">
 		<h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-			<a 
-				href="/admin/projects/new" 
+			<a
+				href="/admin/projects/new"
 				class="flex items-center gap-3 p-4 rounded-lg bg-violet-900/20 border border-violet-800/30 hover:bg-violet-900/30 transition-colors duration-200"
 			>
 				<div class="w-10 h-10 rounded-full bg-violet-900/50 flex items-center justify-center">
@@ -384,9 +415,9 @@
 				</div>
 				<span class="font-medium">Add Project</span>
 			</a>
-			
-			<a 
-				href="/admin/messages" 
+
+			<a
+				href="/admin/messages"
 				class="flex items-center gap-3 p-4 rounded-lg bg-indigo-900/20 border border-indigo-800/30 hover:bg-indigo-900/30 transition-colors duration-200"
 			>
 				<div class="w-10 h-10 rounded-full bg-indigo-900/50 flex items-center justify-center">
@@ -394,9 +425,9 @@
 				</div>
 				<span class="font-medium">Check Messages</span>
 			</a>
-			
-			<a 
-				href="/" 
+
+			<a
+				href="/"
 				target="_blank"
 				class="flex items-center gap-3 p-4 rounded-lg bg-blue-900/20 border border-blue-800/30 hover:bg-blue-900/30 transition-colors duration-200"
 			>
@@ -405,9 +436,9 @@
 				</div>
 				<span class="font-medium">View Portfolio</span>
 			</a>
-			
-			<a 
-				href="/admin/settings" 
+
+			<a
+				href="/admin/settings"
 				class="flex items-center gap-3 p-4 rounded-lg bg-gray-800/50 border border-gray-700 hover:bg-gray-800 transition-colors duration-200"
 			>
 				<div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">

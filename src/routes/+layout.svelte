@@ -3,14 +3,13 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	import { scrollStore, authStore } from '$lib/stores';
-	import { auth, db } from '$lib/config/firebase';
-	import { collection, onSnapshot } from 'firebase/firestore';
+	import { scrollStore, authStore, projectsStore } from '$lib/stores';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import type { Project } from '$lib/types';
-
+	import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+	import { auth, db } from '$lib/fireBaseConfig';
 	// Reactive declarations
 	$: currentPath = $page.url.pathname;
 
@@ -33,13 +32,14 @@
 					fbProjects.push({ id: doc.id, ...projectData } as Project);
 				});
 				projects = fbProjects;
-				authStore.update((currState) => ({
+				console.log(projects, 'these are projects');
+				projectsStore.update((currState) => ({
 					...currState,
 					data: projects,
 					loading: false
 				}));
 			} catch (error) {
-				console.error('Firestore Error', error);
+				console.error('FireStore Error', error);
 			}
 		});
 	}
@@ -51,10 +51,10 @@
 			isAuthenticated = !!user;
 
 			// Handle auth redirects
-			if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
-				window.location.href = '/';
-				return;
-			}
+			// if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
+			// 	window.location.href = '/';
+			// 	return;
+			// }
 
 			// if (!isAuthenticated && currentPath === '/admin') {
 			// 	window.location.href = '/';

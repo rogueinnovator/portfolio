@@ -2,10 +2,10 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { authStore } from '$lib/stores';
-  import { auth } from '$lib/config/firebase';
   import { signOut } from 'firebase/auth';
   import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
+	import { auth } from '$lib/fireBaseConfig';
 
   // Navigation items
   const navItems = [

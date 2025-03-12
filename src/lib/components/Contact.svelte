@@ -3,8 +3,7 @@
 	import { fadeInUp, fadeInLeft, fadeInRight } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
 	import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-	import { db } from '$lib/config/firebase';
-
+	import { db } from '$lib/fireBaseConfig';
 	// Form data
 	let name = '';
 	let email = '';

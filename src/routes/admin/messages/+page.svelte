@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
-  import { db } from '$lib/config/firebase';
-
+	import { db } from '$lib/fireBaseConfig';
   // State
   let messages: any[] = [];
   let isLoading = true;

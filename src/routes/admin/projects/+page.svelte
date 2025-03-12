@@ -1,16 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
-  import { db } from '$lib/config/firebase';
   import type { Project } from '$lib/types';
-
+	import { db } from '$lib/fireBaseConfig';
   // State
   let projects: Project[] = [];
   let isLoading = true;
   let searchQuery = '';
   let showDeleteModal = false;
   let projectToDelete: Project | null = null;
-
   // Fetch projects
   async function fetchProjects() {
     isLoading = true;
@@ -195,12 +193,14 @@
                     <a 
                       href={`/admin/projects/${project.id}`} 
                       class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
+                      aria-label="Edit Project"
                     >
                       <i class="fa-solid fa-edit"></i>
                     </a>
                     <button 
                       on:click={() => confirmDelete(project)}
                       class="text-red-400 hover:text-red-300 transition-colors duration-200"
+                      aria-label="Delete Project"
                     >
                       <i class="fa-solid fa-trash"></i>
                     </button>
@@ -209,6 +209,7 @@
                       target="_blank" 
                       rel="noopener noreferrer"
                       class="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                      aria-label="View Project"
                     >
                       <i class="fa-solid fa-external-link-alt"></i>
                     </a>
