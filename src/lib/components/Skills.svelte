@@ -45,11 +45,6 @@
 			name: 'Tools & Technologies',
 			icons: [
 				{
-					src: 'https://archive.trufflesuite.com/assets/logo.png',
-					alt: 'Truffle',
-					name: 'Truffle'
-				},
-				{
 					src: 'https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png',
 					alt: 'Git',
 					name: 'Git'
@@ -69,7 +64,37 @@
 					alt: 'truffle',
 					name: 'Truffle'
 				},
-				{ src: '/images/gsap.png', alt: 'GSAP', name: 'GSAP' }
+				{ src: '/images/gsap.png', alt: 'GSAP', name: 'GSAP' },
+				{
+					src: 'https://img.icons8.com/?size=100&id=17842&format=png&color=000000',
+					alt: 'GSAP',
+					name: 'Linux'
+				}
+			]
+		},
+		{
+			name: 'Programming languages',
+			icons: [
+				{
+					src: 'https://img.icons8.com/?size=100&id=at2DODSyQznb&format=png&color=000000',
+					alt: 'solidity',
+					name: 'Solidity'
+				},
+				{
+					src: 'https://img.icons8.com/?size=100&id=40669&format=png&color=000000',
+					alt: 'C++',
+					name: 'C++'
+				},
+				{
+					src: 'https://img.icons8.com/?size=100&id=108784&format=png&color=000000',
+					alt: 'Java Script',
+					name: 'Java Script'
+				},
+				{
+					src: 'https://img.icons8.com/?size=100&id=uJM6fQYqDaZK&format=png&color=000000',
+					alt: 'Type Script',
+					name: 'Type Script'
+				},
 			]
 		}
 	];

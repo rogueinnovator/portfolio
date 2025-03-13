@@ -97,7 +97,7 @@
     </div>
     
     <!-- View More Button -->
-    {#if projects.length > 3}
+    <!-- {#if projects.length > 3}
       <div class="flex justify-center mt-12">
         <a 
           href="/projects" 
@@ -110,6 +110,6 @@
           </svg>
         </a>
       </div>
-    {/if}
+    {/if} -->
   </div>
 </section> 

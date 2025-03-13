@@ -32,7 +32,6 @@
 					fbProjects.push({ id: doc.id, ...projectData } as Project);
 				});
 				projects = fbProjects;
-				console.log(projects, 'these are projects');
 				projectsStore.update((currState) => ({
 					...currState,
 					data: projects,
@@ -49,7 +48,6 @@
 		const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
 			currentPath = window.location.pathname;
 			isAuthenticated = !!user;
-
 			// Handle auth redirects
 			// if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
 			// 	window.location.href = '/';
@@ -120,7 +118,7 @@
 		{/if}
 
 		<!-- Header -->
-		{#if currentPath !== '/admin'}
+		{#if !['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes(currentPath)}
 			<Header />
 		{/if}
 
@@ -130,7 +128,7 @@
 		</main>
 
 		<!-- Footer -->
-		{#if currentPath !== '/signIn' && currentPath !== '/admin'}
+		{#if !['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes(currentPath)}
 			<Footer />
 		{/if}
 	{/if}

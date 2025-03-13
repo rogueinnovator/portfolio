@@ -106,7 +106,6 @@
 				limit(5)
 			);
 			const projectsSnapshot = await getDocs(projectsQuery);
-			console.log(projectsSnapshot.docs, 'this is project snapshot');
 			totalProjects = projectsSnapshot.size;
 			recentProjects = projectsSnapshot.docs.map(
 				(doc) => ({ id: doc.id, ...doc.data() }) as Project
@@ -155,7 +154,7 @@
 		});
 	}
 </script>
-
+<!-- 
 <div class="w-full h-screen">
 	<div class="flex flex-row h-full">
 		<div class="relative basis-1/3 bg-transparent border border-slate-700 h-full">
@@ -259,7 +258,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <div class="space-y-8">
 	<!-- Stats Cards -->

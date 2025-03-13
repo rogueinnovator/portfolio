@@ -25,7 +25,6 @@
 		error = '';
 		try {
 			const data = await authHandler.signIn(email, password);
-			console.log('this is data', data);
 			goto('/admin');
 		} catch (err: any) {
 			console.error('Error signing in:', err);

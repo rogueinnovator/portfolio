@@ -17,7 +17,6 @@ async function trackVisitor() {
 		// Check if this session already exists
 		const visitsRef = collection(db, 'visits');
 		const sessionQuery = query(visitsRef, where('sessionId', '==', sessionId));
-    console.log(sessionQuery,"this is session query")
 		const sessionSnapshot = await getDocs(sessionQuery); //here is problem
 		// Only add if this is a new session
 		if (sessionSnapshot.empty) {
