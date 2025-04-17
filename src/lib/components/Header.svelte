@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { scrollStore, navigationStore, authStore } from '$lib/stores';
-	import { fade, slide } from 'svelte/transition';
+	import { scrollStore } from '$lib/stores';
+	import { slide } from 'svelte/transition';
 	import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 	import { hoverAnimation } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';

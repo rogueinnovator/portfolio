@@ -94,7 +94,7 @@
 					src: 'https://img.icons8.com/?size=100&id=uJM6fQYqDaZK&format=png&color=000000',
 					alt: 'Type Script',
 					name: 'Type Script'
-				},
+				}
 			]
 		}
 	];
