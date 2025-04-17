@@ -1,11 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-	// Register ScrollTrigger plugin
-	gsap.registerPlugin(ScrollTrigger);
-	// Sample experience data - you can replace with your own
 	const experiences = [
 		{
 			company: 'OIRRC',
