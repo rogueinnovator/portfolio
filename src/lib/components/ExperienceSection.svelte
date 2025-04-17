@@ -5,7 +5,6 @@
 
 	// Register ScrollTrigger plugin
 	gsap.registerPlugin(ScrollTrigger);
-
 	// Sample experience data - you can replace with your own
 	const experiences = [
 		{

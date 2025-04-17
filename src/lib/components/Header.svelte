@@ -25,7 +25,7 @@
 	async function getCvUrl() {
 		try {
 			const storage = getStorage();
-			const cvRef = ref(storage, 'gs://portfolio-65bfd.appspot.com/cv.pdf');
+			const cvRef = ref(storage, 'Muhammad_Huzaifa.pdf');
 			cvUrl = await getDownloadURL(cvRef);
 		} catch (error) {
 			console.error('Error fetching CV:', error);
