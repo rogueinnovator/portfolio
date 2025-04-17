@@ -48,22 +48,6 @@
 		const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
 			currentPath = window.location.pathname;
 			isAuthenticated = !!user;
-			// Handle auth redirects
-			// if (!isAuthenticated && !nonAuthRoutes.includes(currentPath)) {
-			// 	window.location.href = '/';
-			// 	return;
-			// }
-
-			// if (!isAuthenticated && currentPath === '/admin') {
-			// 	window.location.href = '/';
-			// 	return;
-			// }
-
-			// if (isAuthenticated && currentPath === '/signIn') {
-			// 	window.location.href = '/admin';
-			// 	return;
-			// }
-
 			loading = false;
 		});
 

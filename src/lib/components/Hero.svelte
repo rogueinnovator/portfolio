@@ -23,6 +23,7 @@
 	};
 	let cvUrl = '';
 	async function getCvUrl() {
+		if (!browser) return;
 		try {
 			const storage = getStorage();
 			const cvRef = ref(storage, 'Muhammad_Huzaifa.pdf');
@@ -34,24 +35,15 @@
 
 	// Initialize animations
 	onMount(() => {
-		getCvUrl();
 		if (browser) {
-			// Animate name
+			getCvUrl();
+
+			// Animations
 			fadeInUp(nameElement, 0.3, 1.5);
-
-			// Animate title
 			fadeInLeft(titleElement, 0.8, 1.5);
-
-			// Animate description
 			fadeInUp(descriptionElement, 1.2, 1.5);
-
-			// Animate CTA
 			fadeInUp(ctaElement, 1.5, 1.5);
-
-			// Animate image
 			fadeInRight(imageElement, 0.8, 1.5);
-
-			// Start title cycling
 			cycleTitles();
 
 			// Toggle image visibility
