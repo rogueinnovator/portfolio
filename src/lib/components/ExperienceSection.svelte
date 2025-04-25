@@ -5,7 +5,7 @@
 		{
 			company: 'OIRRC',
 			title: 'Junior web Developer',
-			period: 'Jan 2024 - Sep 2024 ',
+			period: 'Jan 2024 ',
 			description:
 				'Developed full-stack applications using Next.js, implementing both front-end and back-end logic Utilized PostgreSQL as the database for efficient data management.Prisma for database modeling and queries.Deployed Docker to containerize and manage the PostgreSQL database.',
 			technologies: ['Next.js', 'TypeScript', 'JavaScript', 'Postgres', 'Prisma']
@@ -13,10 +13,10 @@
 		{
 			company: 'Code Crush Technologies pvt ltd',
 			title: 'MERN Stack Developer',
-			period: 'Dec 2024 - present ',
+			period: 'Present ',
 			description:
 				'Developed and maintained full-stack web applications using MongoDB, Express.js,React.js, and Node.js, ensuring seamless integration between front-end and back-end components.Collaborated with design teams to deliver high-quality web applications.',
-			technologies: ['React.js', 'Node.js', 'MongoDB', 'TypeScript', 'AWS', 'Express.js']
+			technologies: ['React.js', 'Node.js', 'MongoDB', 'TypeScript', 'AWS', 'Express.js','shadCn']
 		}
 	];
 
