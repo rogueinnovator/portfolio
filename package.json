@@ -39,6 +39,7 @@
 		"firebase": "^11.0.1",
 		"firebase-admin": "^13.2.0",
 		"gsap": "^3.12.7",
+		"howler": "^2.2.4",
 		"remixicon": "^4.6.0",
 		"svelte-motion": "^0.12.2"
 	}

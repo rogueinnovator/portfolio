@@ -4,7 +4,6 @@
 	import type { SocialLink } from '$lib/types';
 	import { browser } from '$app/environment';
 
-	// Social links
 	const socialLinks: SocialLink[] = [
 		{
 			name: 'LinkedIn',
@@ -32,11 +31,9 @@
 		}
 	];
 
-	// Current year for copyright
 	const currentYear = new Date().getFullYear();
 
 	onMount(() => {
-		// Apply hover animations to social links
 		if (browser) {
 			const socialIcons = document.querySelectorAll('.social-icon');
 			socialIcons.forEach((icon) => {
@@ -48,9 +45,7 @@
 
 <footer id="contact" class="bg-gradient-to-b from-black to-slate-900 border-t border-violet-900/30">
 	<div class="container mx-auto px-4 py-12 md:py-16">
-		<!-- Top Section -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-			<!-- Contact Info -->
 			<div class="space-y-6">
 				<h3 class="text-2xl font-bold text-white">Get in Touch</h3>
 				<p class="text-gray-400 max-w-md">
@@ -72,7 +67,6 @@
 				</div>
 			</div>
 
-			<!-- Quick Links -->
 			<div class="grid grid-cols-2 gap-8">
 				<div class="space-y-6">
 					<h3 class="text-xl font-bold text-white">Navigation</h3>
@@ -116,17 +110,13 @@
 			</div>
 		</div>
 
-		<!-- Divider -->
 		<div class="border-t border-gray-800 my-8"></div>
 
-		<!-- Bottom Section -->
 		<div class="flex flex-col md:flex-row justify-between items-center gap-6">
-			<!-- Copyright -->
 			<p class="text-gray-500 text-sm">
 				© {currentYear} Muhammad Huzaifa. All rights reserved.
 			</p>
 
-			<!-- Social Links -->
 			<div class="flex items-center gap-4">
 				{#each socialLinks as link}
 					<a
