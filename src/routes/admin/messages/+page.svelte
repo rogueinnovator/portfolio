@@ -197,19 +197,24 @@
 										<button
 											on:click={() => viewMessage(message)}
 											class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
+											aria-label="View message"
 										>
 											<i class="fa-solid fa-eye"></i>
 										</button>
+
 										<button
 											on:click={() => confirmDelete(message)}
 											class="text-red-400 hover:text-red-300 transition-colors duration-200"
+											aria-label="Delete message"
 										>
 											<i class="fa-solid fa-trash"></i>
 										</button>
+
 										{#if message.email}
 											<a
 												href={`mailto:${message.email}`}
 												class="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+												aria-label="Reply to message"
 											>
 												<i class="fa-solid fa-reply"></i>
 											</a>
@@ -262,6 +267,7 @@
 				<button
 					on:click={closeMessageModal}
 					class="text-gray-400 hover:text-white transition-colors duration-200"
+					aria-label="close Message Modal"
 				>
 					<i class="fa-solid fa-times"></i>
 				</button>

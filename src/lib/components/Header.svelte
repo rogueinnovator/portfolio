@@ -8,7 +8,7 @@
 	import { browser } from '$app/environment';
 	import { auth } from '$lib/fireBaseConfig';
 	import { goto } from '$app/navigation';
-	// Navigation links
+
 	const navLinks = [
 		{ name: 'Home', href: '/' },
 		{ name: 'Projects', href: '/#projects' },
@@ -16,64 +16,58 @@
 		{ name: 'Contact', href: '/#contact' }
 	];
 
-	// CV URL
-	let cvUrl = '';
+	let cvUrl: string | null = null;
 	let mobileMenuOpen = false;
 	let isAuthenticated = false;
+	let isLoadingResume = false;
 
-	// Get CV URL from Firebase Storage
-	async function getCvUrl() {
+	async function downloadResume() {
+		if (cvUrl) {
+			window.open(cvUrl, '_blank');
+			return;
+		}
+
 		try {
+			isLoadingResume = true;
 			const storage = getStorage();
 			const cvRef = ref(storage, 'Muhammad_Huzaifa.pdf');
-			cvUrl = await getDownloadURL(cvRef);
+			const url = await getDownloadURL(cvRef);
+			cvUrl = url;
+			window.open(url, '_blank');
 		} catch (error) {
 			console.error('Error fetching CV:', error);
+		} finally {
+			isLoadingResume = false;
 		}
 	}
 
-	// Initialize
 	onMount(() => {
-		getCvUrl();
-
-		// Apply hover animations to buttons
 		if (browser) {
 			const buttons = document.querySelectorAll('.nav-button');
 			buttons.forEach((button) => {
 				hoverAnimation(button as HTMLElement, 1.05);
 			});
+
+			const unsubscribe = auth.onAuthStateChanged((user) => {
+				isAuthenticated = !!user;
+			});
+
+			return unsubscribe;
 		}
-
-		// Check authentication status
-		const unsubscribe = auth.onAuthStateChanged((user) => {
-			isAuthenticated = !!user;
-		});
-
-		return unsubscribe;
 	});
 
-	// Reactive declarations
-	$: pathname = $page.url.pathname;
 	$: scrolled = $scrollStore.y > 20;
-	$: isActive = (href: string) => {
-		if (href === '/') return pathname === '/';
-		return (
-			pathname.includes(href) ||
-			(href.includes('#') && window?.location.hash === href.split('#')[1])
-		);
-	};
-
-	// Toggle mobile menu
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
+		document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
 	}
 
-	// Scroll to section
 	function scrollToSection(id: string) {
 		const element = document.getElementById(id);
 		if (element) {
 			element.scrollIntoView({ behavior: 'smooth' });
 			mobileMenuOpen = false;
+			document.body.style.overflow = '';
 		}
 	}
 </script>
@@ -84,20 +78,16 @@
 		: 'py-5 bg-transparent'}"
 >
 	<div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
-		<!-- Logo -->
-		<div class="flex items-center gap-2">
-			<a
-				href="/"
-				class="font-bold text-xl md:text-2xl tracking-tight group transition-all duration-300"
+		<a
+			href="/"
+			class="flex items-center gap-2 font-bold text-xl md:text-2xl tracking-tight group transition-all duration-300"
+		>
+			<span class="text-white">MUHAMMAD</span>
+			<span class="text-violet-400 group-hover:text-white transition-colors duration-300"
+				>HUZAIFA</span
 			>
-				<span class="text-white">MUHAMMAD</span>
-				<span class="text-violet-400 group-hover:text-white transition-colors duration-300"
-					>HUZAIFA</span
-				>
-			</a>
-		</div>
+		</a>
 
-		<!-- Desktop Navigation -->
 		<nav class="hidden md:flex items-center gap-6">
 			{#each navLinks as link}
 				<a
@@ -116,9 +106,7 @@
 			{/each}
 		</nav>
 
-		<!-- CTA Buttons -->
 		<div class="hidden md:flex items-center gap-3">
-			<!-- Sign In Button -->
 			<a
 				href={isAuthenticated ? '/admin' : '/signIn'}
 				class="nav-button inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-white font-medium text-sm transition-all duration-300"
@@ -141,141 +129,182 @@
 				<span class="sr-only">{isAuthenticated ? 'Admin Dashboard' : 'Sign In'}</span>
 			</a>
 
-			<!-- Resume Button -->
-			<a
-				href={cvUrl}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="nav-button inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-medium text-sm transition-all duration-300 shadow-lg hover:shadow-violet-500/20"
+			<button
+				on:click={downloadResume}
+				class="nav-button inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-medium text-sm transition-all duration-300 shadow-lg hover:shadow-violet-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+				disabled={isLoadingResume}
 			>
-				<span>Resume</span>
+				{#if isLoadingResume}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="animate-spin"
+					>
+						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+					</svg>
+					<span>Loading...</span>
+				{:else}
+					<span>Resume</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+						<polyline points="7 10 12 15 17 10"></polyline>
+						<line x1="12" y1="15" x2="12" y2="3"></line>
+					</svg>
+				{/if}
+			</button>
+		</div>
+
+		<button
+			class="md:hidden flex items-center justify-center p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700 transition-colors"
+			aria-label="Toggle menu"
+			on:click={toggleMobileMenu}
+		>
+			{#if mobileMenuOpen}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="16"
-					height="16"
+					width="24"
+					height="24"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
 					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					class="lucide lucide-download"
+					class="w-6 h-6 transition-transform duration-300"
 				>
-					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-					<polyline points="7 10 12 15 17 10"></polyline>
-					<line x1="12" y1="15" x2="12" y2="3"></line>
-				</svg>
-			</a>
-		</div>
-
-		<!-- Mobile Menu Button -->
-		<button
-			class="md:hidden flex items-center text-white"
-			aria-label="Toggle menu"
-			on:click={toggleMobileMenu}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				class="transition-transform duration-300 {mobileMenuOpen ? 'rotate-90' : ''}"
-			>
-				{#if mobileMenuOpen}
 					<line x1="18" y1="6" x2="6" y2="18"></line>
 					<line x1="6" y1="6" x2="18" y2="18"></line>
-				{:else}
+				</svg>
+			{:else}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="w-6 h-6 transition-transform duration-300"
+				>
 					<line x1="4" y1="12" x2="20" y2="12"></line>
 					<line x1="4" y1="6" x2="20" y2="6"></line>
 					<line x1="4" y1="18" x2="20" y2="18"></line>
-				{/if}
-			</svg>
+				</svg>
+			{/if}
 		</button>
 	</div>
 
-	<!-- Mobile Menu -->
 	{#if mobileMenuOpen}
 		<div
-			class="md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-md shadow-lg py-4"
-			transition:slide={{ duration: 300, axis: 'y' }}
+			class="md:hidden fixed inset-0 top-16 bg-black/95 backdrop-blur-lg overflow-hidden right-2" 
+			transition:slide={{ duration: 400, easing: t => t*t, axis: 'y' }}
 		>
-			<nav class="container mx-auto px-4 flex flex-col gap-4">
-				{#each navLinks as link}
+			<div class="container mx-auto px-4 py-6 flex flex-col items-center gap-6">
+				<nav class="w-full flex flex-col items-center gap-4">
+					{#each navLinks as link}
+						<a
+							href={link.href}
+							class="w-full text-center py-3 px-4 text-lg font-medium transition-colors duration-300 hover:text-violet-400
+								? 'text-violet-400 bg-violet-900/20 rounded-lg'
+								: 'text-white/80'} rounded-lg"
+							on:click|preventDefault={() => {
+								if (link.href.includes('#')) {
+									scrollToSection(link.href.split('#')[1]);
+								} else {
+									goto(link.href);
+								}
+							}}
+						>
+							{link.name}
+						</a>
+					{/each}
+				</nav>
+
+				<div class="w-full max-w-xs flex flex-col gap-4 mt-4">
 					<a
-						href={link.href}
-						class="py-2 px-4 text-base font-medium transition-colors duration-300 hover:text-violet-400 {isActive(
-							link.href
-						)
-							? 'text-violet-400 bg-violet-900/20 rounded-lg'
-							: 'text-white/80'}"
-						on:click|preventDefault={() => {
-							if (link.href.includes('#')) {
-								scrollToSection(link.href.split('#')[1]);
-							} else {
-								window.location.href = link.href;
-							}
-						}}
+						href={isAuthenticated ? '/admin' : '/signIn'}
+						class="w-full py-3 px-4 rounded-lg bg-gray-800 hover:bg-gray-700 text-white font-medium text-lg transition-all duration-300 flex items-center justify-center gap-2"
 					>
-						{link.name}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+							<circle cx="12" cy="7" r="4"></circle>
+						</svg>
+						<span>{isAuthenticated ? 'Dashboard' : 'Sign In'}</span>
 					</a>
-				{/each}
 
-				<!-- Mobile Sign In Button -->
-				<a
-					href={isAuthenticated ? '/admin' : '/signIn'}
-					class="py-2 px-4 rounded-lg bg-gray-800 hover:bg-gray-700 text-white font-medium text-base transition-all duration-300 flex items-center gap-2"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+					<button
+						on:click={downloadResume}
+						class="w-full py-3 px-4 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium text-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+						disabled={isLoadingResume}
 					>
-						<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-						<circle cx="12" cy="7" r="4"></circle>
-					</svg>
-					<span>{isAuthenticated ? 'Admin Dashboard' : 'Sign In'}</span>
-				</a>
-
-				<!-- Mobile CTA Button -->
-				<a
-					href={cvUrl}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="mt-2 py-2 px-4 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium text-base transition-all duration-300 flex items-center justify-center gap-2"
-				>
-					<span>Download Resume</span>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-download"
-					>
-						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-						<polyline points="7 10 12 15 17 10"></polyline>
-						<line x1="12" y1="15" x2="12" y2="3"></line>
-					</svg>
-				</a>
-			</nav>
+						{#if isLoadingResume}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="animate-spin"
+							>
+								<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+							</svg>
+							<span>Loading Resume...</span>
+						{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+								<polyline points="7 10 12 15 17 10"></polyline>
+								<line x1="12" y1="15" x2="12" y2="3"></line>
+							</svg>
+							<span>Download Resume</span>
+						{/if}
+					</button>
+				</div>
+			</div>
 		</div>
 	{/if}
 </header>
 
-<!-- Spacer to prevent content from being hidden under the fixed header -->
 <div class="h-16 md:h-20"></div>

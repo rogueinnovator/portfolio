@@ -10,8 +10,7 @@ declare global {
 				[key: string]: any;
 			} | null;
 		}
-		// interface PageData {}
-		// interface Platform {}
+		
 	}
 }
 

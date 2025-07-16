@@ -1,60 +1,65 @@
 import { writable } from 'svelte/store';
 import type { Project } from '$lib/types';
-import {  signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '$lib/fireBaseConfig';
-// Theme store
+
+//STORE
+
+//1. THEME STORE
 export const theme = writable<'light' | 'dark'>('dark');
 
-// Projects store
+//2. PROJECTS STORE
 export const projectsStore = writable<{
-  data: Project[];
-  loading: boolean;
-  error: string | null;
+	data: Project[];
+	loading: boolean;
+	error?: string | null;
 }>({
-  data: [],
-  loading: true,
-  error: null
+	data: [],
+	loading: true,
+	error: null
 });
 
-// Authentication store
+//2. AUTHENTICATION STORE
 export const authStore = writable<{
-  isAuthenticated: boolean;
-  loading: boolean;
-  user: any | null;
-  data: any[];
+	isAuthenticated: boolean;
+	loading: boolean;
+	user: any | null;
+	data: any[];
 }>({
-  isAuthenticated: false,
-  loading: true,
-  user: null,
-  data: []
+	isAuthenticated: false,
+	loading: true,
+	user: null,
+	data: []  
 });
 
-// Auth handler for authentication operations
+//3. AUTH HANDLER
 export const authHandler = {
-  signIn: async (email: string, pass: any) => {
-    await signInWithEmailAndPassword(auth, email, pass);
-  },
-  logOut: async () => {
-    await signOut(auth);
-  }
+	signIn: async (email: string, pass: any) => {
+		await signInWithEmailAndPassword(auth, email, pass);
+	},
+	logOut: async () => {
+		await signOut(auth);
+	}
 };
 
-// Navigation store
+//4. NAVIGATION STORE
 export const navigationStore = writable<{
-  isOpen: boolean;
-  currentPath: string;
+	isOpen: boolean;
+	currentPath: string;
 }>({
-  isOpen: false,
-  currentPath: '/'
+	isOpen: false,
+	currentPath: '/'
 });
 
-// Scroll position store
+//5. SCROLL POSITION STORE
 export const scrollStore = writable<{
-  y: number;
-  innerHeight: number;
-  innerWidth: number;
+	y: number;
+	innerHeight: number;
+	innerWidth: number;
 }>({
-  y: 0,
-  innerHeight: 0,
-  innerWidth: 0
-}); 
+	y: 0,
+	innerHeight: 0,
+	innerWidth: 0
+});
+
+export const bannerStore = writable<{ showBanner: boolean }>({ showBanner: true });
