@@ -66,7 +66,7 @@
 		<Banner/>
 	{/if}
 
-	{#if  !['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
+	{#if !showBanner &&!['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
 		<Header />
 	{/if}
 
