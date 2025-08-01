@@ -49,7 +49,7 @@
 			// Toggle image visibility
 			setInterval(() => {
 				isVisible = !isVisible;
-			}, 3000);
+			}, 2000);
 		}
 	});
 </script>
