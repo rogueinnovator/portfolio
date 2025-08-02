@@ -1,16 +1,11 @@
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-
+//IF USER ISNT AUTHENTICATED RETURN TO THE SIGNIN page
 export const load: PageServerLoad = async ({ locals }) => {
-  // Check if user is authenticated
-  const user = locals.user;
-  
-  // if (!user) {
-  //   // Redirect to sign in page if not authenticated
-  //   throw redirect(302, '/signIn');
-  // }
+	console.log(locals?.user, 'local user ');
 
-  return {
-    user
-  };
-}; 
+	if (!locals.user) {
+		throw redirect(302, '/signIn');
+	}
+	return locals.user;
+};

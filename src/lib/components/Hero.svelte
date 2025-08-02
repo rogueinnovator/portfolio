@@ -2,9 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fadeInUp, fadeInLeft, fadeInRight, textReveal } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
-	import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-
-	// Developer titles
+	import { downloadResume } from '$lib/downloadResume';
+	// tiles
 	const titles = ['Full Stack Developer', 'Blockchain Developer', 'Web3 Enthusiast'];
 	let currentTitleIndex = 0;
 	let currentTitle = titles[0];
@@ -14,30 +13,16 @@
 	let ctaElement: HTMLElement;
 	let imageElement: HTMLElement;
 	let isVisible = true;
-	// Function to cycle through titles
+	let isLoadingResume = false;
 	const cycleTitles = () => {
 		setInterval(() => {
 			currentTitleIndex = (currentTitleIndex + 1) % titles.length;
 			currentTitle = titles[currentTitleIndex];
 		}, 3000);
 	};
-	let cvUrl = '';
-	async function getCvUrl() {
-		if (!browser) return;
-		try {
-			const storage = getStorage();
-			const cvRef = ref(storage, 'Muhammad_Huzaifa.pdf');
-			cvUrl = await getDownloadURL(cvRef);
-		} catch (error) {
-			console.error('Error fetching CV:', error);
-		}
-	}
 
-	// Initialize animations
 	onMount(() => {
 		if (browser) {
-			getCvUrl();
-
 			// Animations
 			fadeInUp(nameElement, 0.3, 1.5);
 			fadeInLeft(titleElement, 0.8, 1.5);
@@ -46,7 +31,6 @@
 			fadeInRight(imageElement, 0.8, 1.5);
 			cycleTitles();
 
-			// Toggle image visibility
 			setInterval(() => {
 				isVisible = !isVisible;
 			}, 2000);
@@ -112,17 +96,50 @@
 							<path d="m12 5 7 7-7 7"></path>
 						</svg>
 					</a>
-					<a
-						href={cvUrl}
-						target="_blank"
-						rel="noopener noreferrer"
+					<button
+						on:click={downloadResume}
 						class="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white border border-violet-500 font-medium transition-all duration-300"
 					>
-						Download Resume
-					</a>
+						{#if isLoadingResume}
+							<span class="inline-flex justify-center items-center gap-3">
+								Loading...
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="20"
+									height="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="animate-spin"
+								>
+									<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+								</svg>
+							</span>
+						{:else}
+							<span class="inline-flex justify-center items-center gap-2"
+								>Download Resume <svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="20"
+									height="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+									<polyline points="7 10 12 15 17 10"></polyline>
+									<line x1="12" y1="15" x2="12" y2="3"></line>
+								</svg></span
+							>
+						{/if}
+					</button>
 				</div>
 
-				<!-- Tech Stack Pills -->
 				<div class="flex flex-wrap gap-2 mt-4">
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm">React</span>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm">Next</span>
@@ -158,10 +175,8 @@
 				</div>
 			</div>
 
-			<!-- Right Column: Image -->
 			<div bind:this={imageElement} class="relative flex justify-center lg:justify-end">
 				<div class="relative w-full max-w-md">
-					<!-- Profile Image -->
 					<img
 						src="/images/LC.png"
 						alt="Muhammad Huzaifa"
@@ -169,7 +184,6 @@
 						style="opacity: {isVisible ? 1 : 0};"
 					/>
 
-					<!-- Decorative Elements -->
 					<div
 						class="absolute -top-6 -right-6 w-64 h-64 bg-violet-600/20 rounded-full blur-3xl"
 					></div>
@@ -177,7 +191,6 @@
 						class="absolute -bottom-10 -left-10 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl"
 					></div>
 
-					<!-- Code Snippet Decoration -->
 					<div
 						class="absolute -bottom-8 -left-8 w-32 h-32 bg-black/80 border border-violet-500/30 rounded-lg flex items-center justify-center p-4 shadow-lg backdrop-blur-sm"
 					>
@@ -191,8 +204,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Background Elements -->
 	<div class="absolute top-1/4 left-10 w-24 h-24 bg-violet-600/10 rounded-full blur-2xl"></div>
 	<div class="absolute bottom-1/4 right-10 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl"></div>
 </section>

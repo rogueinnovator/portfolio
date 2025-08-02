@@ -2,10 +2,7 @@
 	import '../app.css';
 	import '../styles/banner.scss';
 	import { browser } from '$app/environment';
-	import { page } from '$app/stores';
 	import { scrollStore } from '$lib/stores';
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
 	import { auth } from '$lib/fireBaseConfig';
 	import { get } from 'svelte/store';
 	import { onMount } from 'svelte';
@@ -65,28 +62,15 @@
 		</button>
 	{/if}
 	<!-- banner -->
-		<div class={`splash ${showContent ? 'moveUp' : ''}`}>
-			<div class="logoContainer">
-				<!-- <div class="logoIcon">
+	<div class={`splash ${showContent ? 'moveUp' : ''}`}>
+		<div class="logoContainer">
+			<!-- <div class="logoIcon">
 					<img src="/" alt="logo" />
 				</div> -->
-				<h1 class="logoText"> ITS MUHAMMAD HUZAIFA</h1>
-			</div>
+			<h1 class="logoText">ITS MUHAMMAD HUZAIFA</h1>
 		</div>
-
-	<!-- {#if showBanner && $page.url.pathname === '/'}
-		<Banner/>
-	{/if} -->
-
-	{#if ['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
-		<Header />
-	{/if}
-
+	</div>
 	<main class="flex-grow">
 		<slot />
 	</main>
-
-	{#if !['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
-		<Footer />
-	{/if}
 </div>

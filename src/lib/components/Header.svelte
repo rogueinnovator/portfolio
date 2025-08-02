@@ -1,45 +1,23 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import { scrollStore } from '$lib/stores';
 	import { slide } from 'svelte/transition';
-	import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 	import { hoverAnimation } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
 	import { auth } from '$lib/fireBaseConfig';
 	import { goto } from '$app/navigation';
-
+	import { downloadResume } from '$lib/downloadResume';
+	//LINKS
 	const navLinks = [
 		{ name: 'Home', href: '/' },
 		{ name: 'Projects', href: '/#projects' },
 		{ name: 'Skills', href: '/#skills' },
 		{ name: 'Contact', href: '/#contact' }
 	];
-
-	let cvUrl: string | null = null;
+	//VARIABLES
 	let mobileMenuOpen = false;
 	let isAuthenticated = false;
 	let isLoadingResume = false;
-
-	async function downloadResume() {
-		if (cvUrl) {
-			window.open(cvUrl, '_blank');
-			return;
-		}
-
-		try {
-			isLoadingResume = true;
-			const storage = getStorage();
-			const cvRef = ref(storage, 'Muhammad_Huzaifa.pdf');
-			const url = await getDownloadURL(cvRef);
-			cvUrl = url;
-			window.open(url, '_blank');
-		} catch (error) {
-			console.error('Error fetching CV:', error);
-		} finally {
-			isLoadingResume = false;
-		}
-	}
 
 	onMount(() => {
 		if (browser) {
@@ -77,6 +55,7 @@
 		? 'py-3 bg-black/90 backdrop-blur-md shadow-lg'
 		: 'py-5 bg-transparent'}"
 >
+	<!-- DESKTOP VIEW  -->
 	<div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
 		<a
 			href="/"
@@ -212,20 +191,18 @@
 			{/if}
 		</button>
 	</div>
-
+	<!-- MOBILE VIEW  -->
 	{#if mobileMenuOpen}
 		<div
-			class="md:hidden fixed inset-0 top-16 bg-black/95 backdrop-blur-lg overflow-hidden right-2" 
-			transition:slide={{ duration: 400, easing: t => t*t, axis: 'y' }}
+			class="md:hidden fixed inset-0 top-16 z-[60] bg-black/95 backdrop-blur-lg overflow-hidden right-2"
+			transition:slide={{ duration: 400, easing: (t) => t * t, axis: 'y' }}
 		>
 			<div class="container mx-auto px-4 py-6 flex flex-col items-center gap-6">
 				<nav class="w-full flex flex-col items-center gap-4">
 					{#each navLinks as link}
 						<a
 							href={link.href}
-							class="w-full text-center py-3 px-4 text-lg font-medium transition-colors duration-300 hover:text-violet-400
-								? 'text-violet-400 bg-violet-900/20 rounded-lg'
-								: 'text-white/80'} rounded-lg"
+							class="w-full text-center py-3 px-4 text-lg font-medium transition-colors duration-300 hover:text-violet-400 text-white/80 rounded-lg"
 							on:click|preventDefault={() => {
 								if (link.href.includes('#')) {
 									scrollToSection(link.href.split('#')[1]);
@@ -306,5 +283,3 @@
 		</div>
 	{/if}
 </header>
-
-<div class="h-16 md:h-20"></div>
