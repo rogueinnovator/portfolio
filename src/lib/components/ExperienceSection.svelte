@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
-	import defaultLogo from '../../../static/favicon.png'
+	import defaultLogo from '../../../static/favicon.png';
 
 	interface Experience {
 		company: string;
@@ -22,7 +22,7 @@
 			technologies: ['Next.js', 'TypeScript', 'JavaScript', 'Postgres', 'Prisma'],
 			logo: 'https://oirrc.org/wp-content/uploads/2023/01/OIRRC-logo-with-white-text.png',
 			url: 'https://oirrc.org/',
-			cardStyle: 'bg-gradient-to-br from-purple-900/30 to-blue-900/30'
+			cardStyle: 'bg-gradient-to-br from-gray-900/30 to-blue-900/30'
 		},
 		{
 			company: 'Code Crush Technologies Pvt Ltd',
@@ -38,15 +38,16 @@
 			company: 'Red Star Technologies',
 			title: 'MERN Stack Developer',
 			description:
-				'Developed and maintained full-stack web applications using MongoDB, Express.js, React.js, and Node.js, ensuring seamless integration between front-end and back-end components. Collaborated with design teams to deliver high-quality web applications.',
+				'Worked with Next.js Lambda functions, PostgreSQL (RDS), EC2, and integrated AI solutions. Utilized AWS services such as Lightsail, RDS, and others for scalable deployments and infrastructure management.',
 			technologies: ['React.js', 'Node.js', 'MongoDB', 'TypeScript', 'AWS', 'Express.js', 'shadCn'],
-			logo:"https://redstartechs.com/storage/images/WYG0WBkKi5i92e6prfxIUc3RwgFUnjI7rRxE1opR.svg",
+			logo: 'https://redstartechs.com/storage/images/WYG0WBkKi5i92e6prfxIUc3RwgFUnjI7rRxE1opR.svg',
 			url: 'https://redstartechs.com/',
 			cardStyle: 'bg-gradient-to-br from-rose-900/30 to-purple-900/30'
 		}
 	];
 
 	onMount(() => {
+		// Animate the section title
 		gsap.from('.section-title', {
 			y: -50,
 			opacity: 0,
@@ -54,15 +55,23 @@
 			ease: 'power3.out'
 		});
 
-		gsap.from('.divider', {
-			width: 0,
-			duration: 1.5,
-			delay: 0.3,
-			ease: 'power3.inOut'
-		});
+		// Animate the divider under the title
+		gsap.fromTo(
+			'.divider',
+			{ width: 0 },
+			{
+				width: '30rem',
+				duration: 1.5,
+				delay: 0.3,
+				ease: 'power3.inOut',
+				repeat: -1,
+				yoyo: true
+			}
+		);
 
+		// Animate the timeline dots
 		gsap.from('.timeline-dot', {
-			scale: 0,
+			scale: 10,
 			duration: 0.5,
 			stagger: 0.2,
 			delay: 0.5,
@@ -103,7 +112,7 @@
 <section class="experience-section py-16 px-4 md:px-8 max-w-5xl mx-auto">
 	<div class="mb-12 text-center">
 		<h2 class="section-title text-3xl md:text-4xl font-bold mb-4">Professional Experience</h2>
-		<div class="divider w-20 h-1 bg-purple-400 mx-auto"></div>
+		<div class="divider w-40 h-1 mx-auto bg-purple-400 rounded-full glow-divider"></div>
 	</div>
 
 	<div class="relative">
@@ -115,7 +124,7 @@
 			<div class="mb-12 md:mb-0">
 				<div class="flex flex-col md:flex-row items-center">
 					<div
-						class="timeline-dot hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-purple-400 border-4 border-white shadow"
+						class="timeline-dot hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-purple-400 border-4 border-purple-700 shadow"
 					></div>
 
 					<div
@@ -132,7 +141,9 @@
 										src={experience.logo || defaultLogo}
 										alt={`${experience.company} logo`}
 										class="w-16 h-16 object-fill rounded-full p-1"
-										on:error={(e) => { if (e.target) (e.target as HTMLImageElement).src = defaultLogo; }}
+										on:error={(e) => {
+											if (e.target) (e.target as HTMLImageElement).src = defaultLogo;
+										}}
 									/>
 									<a
 										href={experience.url}
@@ -186,8 +197,8 @@
 		70% {
 			box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
 		}
-		100% {
-			box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+		200% {
+			box-shadow: 0 0 0 0 rgba(82, 35, 192, 0);
 		}
 	}
 

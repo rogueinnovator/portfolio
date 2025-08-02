@@ -6,7 +6,7 @@
 	import { browser } from '$app/environment';
 	import { auth } from '$lib/fireBaseConfig';
 	import { goto } from '$app/navigation';
-	import { downloadResume } from '$lib/downloadResume';
+	import { downloadResume } from '$lib/utils';
 	//LINKS
 	const navLinks = [
 		{ name: 'Home', href: '/' },
@@ -18,7 +18,9 @@
 	let mobileMenuOpen = false;
 	let isAuthenticated = false;
 	let isLoadingResume = false;
-
+	function handleDownload() {
+		downloadResume((val: boolean) => (isLoadingResume = val));
+	}
 	onMount(() => {
 		if (browser) {
 			const buttons = document.querySelectorAll('.nav-button');
@@ -109,7 +111,7 @@
 			</a>
 
 			<button
-				on:click={downloadResume}
+				on:click={handleDownload}
 				class="nav-button inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-medium text-sm transition-all duration-300 shadow-lg hover:shadow-violet-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
 				disabled={isLoadingResume}
 			>
@@ -239,7 +241,7 @@
 					</a>
 
 					<button
-						on:click={downloadResume}
+						on:click={handleDownload}
 						class="w-full py-3 px-4 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium text-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
 						disabled={isLoadingResume}
 					>

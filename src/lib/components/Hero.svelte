@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { fadeInUp, fadeInLeft, fadeInRight, textReveal } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
-	import { downloadResume } from '$lib/downloadResume';
+	import { downloadResume, getExperienceDuration } from '$lib/utils';
 	// tiles
-	const titles = ['Full Stack Developer', 'Blockchain Developer', 'Web3 Enthusiast'];
+	const titles = ['MERN Stack', 'Next js ', 'Web3 Enthusiast', 'Node.js', 'Ethereum'];
 	let currentTitleIndex = 0;
 	let currentTitle = titles[0];
 	let titleElement: HTMLElement;
@@ -14,12 +14,23 @@
 	let imageElement: HTMLElement;
 	let isVisible = true;
 	let isLoadingResume = false;
+	const experienceStartDate = new Date('2024-01-01T00:00:00Z');
+	let experience = '';
+	let experienceElement: HTMLElement;
+
+	function updateExperience() {
+		experience = getExperienceDuration(experienceStartDate);
+	}
 	const cycleTitles = () => {
 		setInterval(() => {
 			currentTitleIndex = (currentTitleIndex + 1) % titles.length;
 			currentTitle = titles[currentTitleIndex];
 		}, 3000);
 	};
+
+	function handleDownloadClick() {
+		downloadResume((val: boolean) => (isLoadingResume = val));
+	}
 
 	onMount(() => {
 		if (browser) {
@@ -34,6 +45,16 @@
 			setInterval(() => {
 				isVisible = !isVisible;
 			}, 2000);
+			updateExperience();
+			setInterval(() => {
+				updateExperience();
+				// Optional: subtle pulse animation
+				gsap.fromTo(
+					experienceElement,
+					{ scale: 1 },
+					{ scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 }
+				);
+			}, 1000);
 		}
 	});
 </script>
@@ -70,8 +91,16 @@
 
 				<!-- Description -->
 				<p bind:this={descriptionElement} class="text-lg md:text-xl text-gray-300 max-w-xl">
-					Specialized in building modern web applications with expertise in Blockchain, IoT, and
-					creating scalable solutions that deliver exceptional user experiences.
+					I am a skilled Web Developer and Blockchain Developer with <span
+						bind:this={experienceElement}
+						class="inline-block font-mono text-violet-300 bg-violet-900/30 px-3 py-1 rounded-md shadow-md animate-pulse duration-1000"
+					>
+						{experience}
+					</span>
+					<br /> of experience. I specialize in building high-quality and user-friendly web applications.
+					I work with technologies like React.js, Next.js, Node.js, Truffle, Solidity and Ethereum. I
+					am proficient in front-end and back-end development, especially with the MERN stack and Next
+					js.I have a proven work record in multiple companies and with clients.
 				</p>
 
 				<!-- CTA Buttons -->
@@ -97,7 +126,7 @@
 						</svg>
 					</a>
 					<button
-						on:click={downloadResume}
+						on:click={handleDownloadClick}
 						class="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white border border-violet-500 font-medium transition-all duration-300"
 					>
 						{#if isLoadingResume}
@@ -146,31 +175,41 @@
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm">Svelte</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
-						>TypeScript</span
+						>Firebase</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
-						>JavaScript</span
+						>Restful APIs
+					</span>
+					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
+						>MERN Stack
+					</span>
+					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
+						>Next js</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
-						>Tailwind CSS</span
+						>Databases</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
 						>Express</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
-						>MongoDB</span
-					>
+						>AWS Services
+					</span>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
 						>Electron</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
-						>Firebase</span
-					>
+						>VPS Deployments
+					</span>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
 						>Blockchain</span
 					>
 					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
 						>Solidity</span
+					>
+					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm">AWS</span>
+					<span class="px-3 py-1 rounded-full bg-violet-900/30 text-violet-300 text-sm"
+						>Lightsail</span
 					>
 				</div>
 			</div>
@@ -192,13 +231,20 @@
 					></div>
 
 					<div
-						class="absolute -bottom-8 -left-8 w-32 h-32 bg-black/80 border border-violet-500/30 rounded-lg flex items-center justify-center p-4 shadow-lg backdrop-blur-sm"
+						class="absolute -bottom-8 -left-8 w-32 h-32 bg-black/80 border border-violet-500/30 rounded-lg flex flex-col shadow-lg backdrop-blur-sm"
 					>
-						<code class="text-xs text-violet-400">
-							&lt;code&gt;<br />
-							&nbsp;&nbsp;passion<br />
-							&lt;/code&gt;
-						</code>
+						<div class="flex items-center gap-1 px-2 py-2 bg-black/60 rounded-t-lg border-b border-violet-500/10">
+							<span class="w-2 h-2 rounded-full bg-red-500"></span>
+							<span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+							<span class="w-2 h-2 rounded-full bg-green-500"></span>
+						</div>
+						<div class="flex-1 flex items-center justify-center p-4">
+							<code class="text-xs text-violet-400">
+								&lt;innovation&gt;<br />
+								&nbsp;&nbsp;skills<br />
+								&lt;/innovation&gt;
+							</code>
+						</div>
 					</div>
 				</div>
 			</div>
