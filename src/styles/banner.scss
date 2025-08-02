@@ -1,0 +1,37 @@
+.splash {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: #000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 20;
+	transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+	padding: 2rem; // spacing for small devices
+	text-align: center;
+}
+
+.moveUp {
+	transform: translateY(-100vh);
+}
+
+.logoContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: rgb(159, 16, 216);
+	animation: fadeIn 1s ease-in-out;
+}
+
+.logoText {
+	font-size: clamp(2rem, 8vw, 5.5rem); // fluid size between mobile and desktop
+	font-weight: 700;
+	letter-spacing: 1px;
+	line-height: 1.2;
+	word-break: break-word;
+	text-wrap: balance;
+	max-width: 100%;
+}

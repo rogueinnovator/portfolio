@@ -1,7 +1,9 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { cubicOut } from "svelte/easing";
-import type { TransitionConfig } from "svelte/transition";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { cubicOut } from 'svelte/easing';
+import type { TransitionConfig } from 'svelte/transition';
+import { browser } from '$app/environment';
+let cvUrl = 'https://raw.githubusercontent.com/rogueinnovator/CV/master/Muhammad_Huzaifa.pdf';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -19,13 +21,9 @@ export const flyAndScale = (
 	params: FlyAndScaleParams = { y: -8, x: 0, start: 0.95, duration: 150 }
 ): TransitionConfig => {
 	const style = getComputedStyle(node);
-	const transform = style.transform === "none" ? "" : style.transform;
+	const transform = style.transform === 'none' ? '' : style.transform;
 
-	const scaleConversion = (
-		valueA: number,
-		scaleA: [number, number],
-		scaleB: [number, number]
-	) => {
+	const scaleConversion = (valueA: number, scaleA: [number, number], scaleB: [number, number]) => {
 		const [minA, maxA] = scaleA;
 		const [minB, maxB] = scaleB;
 
@@ -35,13 +33,11 @@ export const flyAndScale = (
 		return valueB;
 	};
 
-	const styleToString = (
-		style: Record<string, number | string | undefined>
-	): string => {
+	const styleToString = (style: Record<string, number | string | undefined>): string => {
 		return Object.keys(style).reduce((str, key) => {
 			if (style[key] === undefined) return str;
 			return str + `${key}:${style[key]};`;
-		}, "");
+		}, '');
 	};
 
 	return {
@@ -83,7 +79,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 	wait: number
 ): ((...args: Parameters<T>) => void) => {
 	let timeout: ReturnType<typeof setTimeout> | null = null;
-	
+
 	return (...args: Parameters<T>) => {
 		if (timeout) clearTimeout(timeout);
 		timeout = setTimeout(() => func(...args), wait);
@@ -92,7 +88,9 @@ export const debounce = <T extends (...args: any[]) => any>(
 
 // Generate random ID
 export const generateId = (length: number = 8): string => {
-	return Math.random().toString(36).substring(2, 2 + length);
+	return Math.random()
+		.toString(36)
+		.substring(2, 2 + length);
 };
 
 // Check if device is mobile
@@ -117,7 +115,7 @@ export const isDesktop = (): boolean => {
 export const scrollToElement = (elementId: string, offset: number = 0): void => {
 	const element = document.getElementById(elementId);
 	if (!element) return;
-	
+
 	const y = element.getBoundingClientRect().top + window.pageYOffset + offset;
 	window.scrollTo({ top: y, behavior: 'smooth' });
 };
@@ -126,15 +124,47 @@ export const scrollToElement = (elementId: string, offset: number = 0): void => 
 export const getContrastColor = (hexColor: string): string => {
 	// Remove # if present
 	hexColor = hexColor.replace('#', '');
-	
+
 	// Convert to RGB
 	const r = parseInt(hexColor.substr(0, 2), 16);
 	const g = parseInt(hexColor.substr(2, 2), 16);
 	const b = parseInt(hexColor.substr(4, 2), 16);
-	
+
 	// Calculate luminance
 	const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-	
+
 	// Return black for bright colors, white for dark colors
 	return luminance > 0.5 ? '#000000' : '#FFFFFF';
 };
+export function getExperienceDuration(startDate: Date): string {
+	const now = new Date();
+	let diff = now.getTime() - startDate.getTime();
+
+	let years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+	diff -= years * (1000 * 60 * 60 * 24 * 365.25);
+
+	let months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+	diff -= months * (1000 * 60 * 60 * 24 * 30.44);
+
+	let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+	diff -= days * (1000 * 60 * 60 * 24);
+
+	let hours = Math.floor(diff / (1000 * 60 * 60));
+	diff -= hours * (1000 * 60 * 60);
+
+	let minutes = Math.floor(diff / (1000 * 60));
+	diff -= minutes * (1000 * 60);
+
+	let seconds = Math.floor(diff / 1000);
+
+	return `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+export function downloadResume(setLoading: (value: boolean) => void) {
+	if (cvUrl && browser) {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+			window.open(cvUrl, '_blank', 'noopener,noreferrer');
+		}, 1500);
+	}
+}

@@ -29,16 +29,27 @@ export const authStore = writable<{
 	isAuthenticated: false,
 	loading: true,
 	user: null,
-	data: []  
+	data: []
 });
 
 //3. AUTH HANDLER
 export const authHandler = {
-	signIn: async (email: string, pass: any) => {
-		await signInWithEmailAndPassword(auth, email, pass);
+	async signIn(email: string, password: string) {
+		const userCred = await signInWithEmailAndPassword(auth, email, password);
+		const idToken = await userCred.user.getIdToken();
+		const response = await fetch('/api/session', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ idToken })
+		});
+		if (!response.ok) throw new Error('Failed to store session');
+		return true;
 	},
 	logOut: async () => {
 		await signOut(auth);
+		await fetch('/api/logout', {
+			method: 'POST'
+		});
 	}
 };
 

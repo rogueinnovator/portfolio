@@ -1,24 +1,26 @@
 <script lang="ts">
 	import '../app.css';
-	import { onMount } from 'svelte';
+	import '../styles/banner.scss';
 	import { browser } from '$app/environment';
-	import { page } from '$app/stores';
-	import { bannerStore, scrollStore } from '$lib/stores';
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
+	import { scrollStore } from '$lib/stores';
 	import { auth } from '$lib/fireBaseConfig';
-	import Banner from '$lib/components/Banner.svelte';
 	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
+	import Banner from '$lib/components/Banner.svelte';
 	let isAuthenticated = false;
-	let showBanner = get(bannerStore).showBanner;
-	console.log(showBanner,"this is showbanner");
-	
+	let showContent = false;
 	onMount(() => {
 		const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
 			isAuthenticated = !!user;
 		});
+		const timer = setTimeout(() => {
+			showContent = true;
+		}, 2000);
 
-		return unsubscribeAuth;
+		return () => {
+			unsubscribeAuth;
+			clearTimeout(timer);
+		};
 	});
 
 	function scrollToTop(): void {
@@ -38,7 +40,6 @@
 </script>
 
 <svelte:window on:scroll={handleScroll} />
-
 <div class="relative flex flex-col min-h-screen bg-black text-white overflow-hidden">
 	{#if $scrollStore.y > 300}
 		<button
@@ -61,20 +62,9 @@
 			</svg>
 		</button>
 	{/if}
-
-	{#if showBanner && $page.url.pathname === '/'}
-		<Banner/>
-	{/if}
-
-	{#if ['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
-		<Header />
-	{/if}
-
+	<!-- banner -->
+	<Banner {showContent} />
 	<main class="flex-grow">
 		<slot />
 	</main>
-
-	{#if !['/signIn', '/admin', '/admin/projects', '/admin/messages'].includes($page.url.pathname)}
-		<Footer />
-	{/if}
 </div>

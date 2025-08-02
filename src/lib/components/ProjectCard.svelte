@@ -7,7 +7,8 @@
 
 	// Props
 	export let project: Project;
-
+	console.log(project,"This is projecta");
+	
 	// Local state
 	let isHovered = false;
 	let cardElement: HTMLElement;

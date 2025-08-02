@@ -4,6 +4,8 @@
 	import Skills from '$lib/components/Skills.svelte';
 	import Contact from '$lib/components/Contact.svelte';
 	import ExperienceSection from '$lib/components/ExperienceSection.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -15,9 +17,11 @@
 </svelte:head>
 
 <div class="flex flex-col">
+	<Header/>
 	<Hero />
 	<ExperienceSection />
 	<Projects />
 	<Skills />
 	<Contact />
+	<Footer/>
 </div>

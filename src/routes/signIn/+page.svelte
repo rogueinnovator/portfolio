@@ -4,37 +4,47 @@
 	import { fadeInUp } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
 	import { authHandler } from '$lib/stores';
+	import { fade } from 'svelte/transition';
 
-	// Form data
-	let email = '';
+	let email = 'theehuzaifa@gmail.com';
 	let password = '';
 	let isSubmitting = false;
 	let error = '';
-
-	// Elements for animation
+	//FOR ANIMATION
 	let formContainer: HTMLElement;
+	let passwordInput: HTMLInputElement;
 
-	// Handle sign in
+	function triggerShake() {
+		if (passwordInput) {
+			passwordInput.classList.add('shake');
+			setTimeout(() => {
+				passwordInput.classList.remove('shake');
+			}, 400);
+		}
+	}
+
+	// HANDLE SIGN IN
 	async function handleSignIn() {
 		if (!email || !password) {
 			error = 'Please enter both email and password.';
 			return;
 		}
-
 		isSubmitting = true;
 		error = '';
 		try {
-			const data = await authHandler.signIn(email, password);
+			await authHandler.signIn(email, password);
 			goto('/admin');
 		} catch (err: any) {
 			console.error('Error signing in:', err);
-			// Handle different Firebase auth errors
 			if (err.code === 'auth/invalid-credential') {
 				error = 'Invalid email or password. Please try again.';
+				triggerShake();
 			} else if (err.code === 'auth/user-not-found') {
 				error = 'No user found with this email address.';
+				triggerShake();
 			} else if (err.code === 'auth/wrong-password') {
 				error = 'Incorrect password. Please try again.';
+				triggerShake();
 			} else {
 				error = 'Failed to sign in. Please try again later.';
 			}
@@ -43,7 +53,6 @@
 		}
 	}
 
-	// Initialize animations
 	onMount(() => {
 		if (browser && formContainer) {
 			fadeInUp(formContainer, 0.3, 1);
@@ -56,79 +65,73 @@
 </svelte:head>
 
 <div class="min-h-screen flex items-center justify-center bg-black px-4">
-	<div
-		bind:this={formContainer}
-		class="max-w-md w-full bg-gray-900/80 backdrop-blur-sm rounded-xl border border-gray-800 shadow-xl p-8"
-	>
-		<!-- Header -->
+	<div bind:this={formContainer} class="max-w-md w-full backdrop-blur-sm rounded-xl p-8">
 		<div class="text-center mb-8">
-			<div
-				class="w-16 h-16 bg-violet-600 rounded-full flex items-center justify-center mx-auto mb-4"
-			>
-				<i class="fa-solid fa-user-shield text-2xl"></i>
-			</div>
-			<h1 class="text-2xl font-bold">Admin Sign In</h1>
-			<p class="text-gray-400 mt-2">Sign in to access the admin dashboard</p>
+			<img
+				src="images/avatar.jpg"
+				alt="Admin Avatar"
+				class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+			/>
+			<h1 class="text-2xl font-bold">HUZAIFA</h1>
 		</div>
 
-		<!-- Form -->
 		<form on:submit|preventDefault={handleSignIn} class="space-y-6">
-			<!-- Error Message -->
-			{#if error}
-				<div class="p-4 bg-red-900/30 border border-red-500 rounded-lg text-red-400 text-sm">
-					{error}
-				</div>
-			{/if}
-
-			<!-- Email Input -->
-			<div>
-				<label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-				<input
-					type="email"
-					id="email"
-					bind:value={email}
-					required
-					class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300 text-white"
-					placeholder="example@gmail.com"
-				/>
-			</div>
-
-			<!-- Password Input -->
-			<div>
-				<label for="password" class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+			<div class="flex justify-center items-center">
+				<a href="/" class="text-white transition-colors duration-300 -mr-4"> ← </a>
 				<input
 					type="password"
 					id="password"
+					bind:this={passwordInput}
 					bind:value={password}
 					required
-					class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-300 text-white"
-					placeholder=""
+					class="w-full mx-9 px-4 py-1.5 bg-black/50 border border-gray-500 rounded-lg focus:outline-none focus:border-gray-700 transition-all duration-300 text-white"
+					placeholder="password"
 				/>
 			</div>
-
-			<!-- Submit Button -->
-			<button
-				type="submit"
-				disabled={isSubmitting}
-				class="w-full px-6 py-3 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-violet-500/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-			>
-				{#if isSubmitting}
-					<div
-						class="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"
-					></div>
-					<span>Signing In...</span>
-				{:else}
-					<i class="fa-solid fa-sign-in-alt"></i>
-					<span>Sign In</span>
-				{/if}
-			</button>
-
-			<!-- Back to Home -->
-			<div class="text-center mt-6">
-				<a href="/" class="text-violet-400 hover:text-violet-300 transition-colors duration-300">
-					← Back to Portfolio
-				</a>
-			</div>
+			{#if password}
+				<div
+					class="absolute bottom-0 left-0 right-0 flex items-center justify-center pointer-events-none"
+					in:fade={{ duration: 600 }}
+				>
+					{#if error}
+						<p class="text-center text-sm font-light text-red-500">{error}</p>
+					{:else}
+						<p class="text-center text-sm font-light">
+							{#if isSubmitting}
+								Loading ...
+							{:else}
+								Press Enter
+							{/if}
+						</p>
+					{/if}
+				</div>
+			{/if}
 		</form>
 	</div>
 </div>
+
+<style lang="scss">
+	@keyframes shake {
+		0% {
+			transform: translateX(0);
+		}
+		20% {
+			transform: translateX(-7px);
+		}
+		40% {
+			transform: translateX(7px);
+		}
+		60% {
+			transform: translateX(-7px);
+		}
+		80% {
+			transform: translateX(7px);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+	:global(.shake) {
+		animation: shake 0.3s ease-in-out;
+	}
+</style>

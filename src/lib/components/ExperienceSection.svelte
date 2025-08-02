@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
-	import defaultLogo from '../../../static/favicon.png'
+	import defaultLogo from '../../../static/favicon.png';
 
 	interface Experience {
 		company: string;
@@ -22,7 +22,7 @@
 			technologies: ['Next.js', 'TypeScript', 'JavaScript', 'Postgres', 'Prisma'],
 			logo: 'https://oirrc.org/wp-content/uploads/2023/01/OIRRC-logo-with-white-text.png',
 			url: 'https://oirrc.org/',
-			cardStyle: 'bg-gradient-to-br from-purple-900/30 to-blue-900/30'
+			cardStyle: 'bg-gradient-to-br from-gray-900/30 to-blue-900/30'
 		},
 		{
 			company: 'Code Crush Technologies Pvt Ltd',
@@ -38,9 +38,9 @@
 			company: 'Red Star Technologies',
 			title: 'MERN Stack Developer',
 			description:
-				'Developed and maintained full-stack web applications using MongoDB, Express.js, React.js, and Node.js, ensuring seamless integration between front-end and back-end components. Collaborated with design teams to deliver high-quality web applications.',
+				'Worked with Next.js Lambda functions, PostgreSQL (RDS), EC2, and integrated AI solutions. Utilized AWS services such as Lightsail, RDS, and others for scalable deployments and infrastructure management.',
 			technologies: ['React.js', 'Node.js', 'MongoDB', 'TypeScript', 'AWS', 'Express.js', 'shadCn'],
-			logo:"https://redstartechs.com/storage/images/WYG0WBkKi5i92e6prfxIUc3RwgFUnjI7rRxE1opR.svg",
+			logo: 'https://redstartechs.com/storage/images/WYG0WBkKi5i92e6prfxIUc3RwgFUnjI7rRxE1opR.svg',
 			url: 'https://redstartechs.com/',
 			cardStyle: 'bg-gradient-to-br from-rose-900/30 to-purple-900/30'
 		}
@@ -132,7 +132,9 @@
 										src={experience.logo || defaultLogo}
 										alt={`${experience.company} logo`}
 										class="w-16 h-16 object-fill rounded-full p-1"
-										on:error={(e) => { if (e.target) (e.target as HTMLImageElement).src = defaultLogo; }}
+										on:error={(e) => {
+											if (e.target) (e.target as HTMLImageElement).src = defaultLogo;
+										}}
 									/>
 									<a
 										href={experience.url}
