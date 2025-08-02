@@ -25,6 +25,7 @@
 		"clsx": "^2.1.1",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
+		"sass-embedded": "^1.89.2",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"svelte-radix": "^2.0.1",
