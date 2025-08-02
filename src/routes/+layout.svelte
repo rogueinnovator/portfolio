@@ -6,6 +6,7 @@
 	import { auth } from '$lib/fireBaseConfig';
 	import { get } from 'svelte/store';
 	import { onMount } from 'svelte';
+	import Banner from '$lib/components/Banner.svelte';
 	let isAuthenticated = false;
 	let showContent = false;
 	onMount(() => {
@@ -62,14 +63,7 @@
 		</button>
 	{/if}
 	<!-- banner -->
-	<div class={`splash ${showContent ? 'moveUp' : ''}`}>
-		<div class="logoContainer">
-			<!-- <div class="logoIcon">
-					<img src="/" alt="logo" />
-				</div> -->
-			<h1 class="logoText">ITS MUHAMMAD HUZAIFA</h1>
-		</div>
-	</div>
+	<Banner {showContent} />
 	<main class="flex-grow">
 		<slot />
 	</main>

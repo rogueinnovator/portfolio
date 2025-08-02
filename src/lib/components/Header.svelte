@@ -53,7 +53,7 @@
 </script>
 
 <header
-	class="fixed top-0 w-full z-50 transition-all duration-300 {scrolled
+	class="fixed top-0 w-full z-10 transition-all duration-300 {scrolled
 		? 'py-3 bg-black/90 backdrop-blur-md shadow-lg'
 		: 'py-5 bg-transparent'}"
 >

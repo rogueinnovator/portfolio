@@ -47,7 +47,6 @@
 	];
 
 	onMount(() => {
-		// Animate the section title
 		gsap.from('.section-title', {
 			y: -50,
 			opacity: 0,
@@ -55,23 +54,15 @@
 			ease: 'power3.out'
 		});
 
-		// Animate the divider under the title
-		gsap.fromTo(
-			'.divider',
-			{ width: 0 },
-			{
-				width: '30rem',
-				duration: 1.5,
-				delay: 0.3,
-				ease: 'power3.inOut',
-				repeat: -1,
-				yoyo: true
-			}
-		);
+		gsap.from('.divider', {
+			width: 0,
+			duration: 1.5,
+			delay: 0.3,
+			ease: 'power3.inOut'
+		});
 
-		// Animate the timeline dots
 		gsap.from('.timeline-dot', {
-			scale: 10,
+			scale: 0,
 			duration: 0.5,
 			stagger: 0.2,
 			delay: 0.5,
@@ -112,7 +103,7 @@
 <section class="experience-section py-16 px-4 md:px-8 max-w-5xl mx-auto">
 	<div class="mb-12 text-center">
 		<h2 class="section-title text-3xl md:text-4xl font-bold mb-4">Professional Experience</h2>
-		<div class="divider w-40 h-1 mx-auto bg-purple-400 rounded-full glow-divider"></div>
+		<div class="divider w-20 h-1 bg-purple-400 mx-auto"></div>
 	</div>
 
 	<div class="relative">
@@ -124,7 +115,7 @@
 			<div class="mb-12 md:mb-0">
 				<div class="flex flex-col md:flex-row items-center">
 					<div
-						class="timeline-dot hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-purple-400 border-4 border-purple-700 shadow"
+						class="timeline-dot hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-purple-400 border-4 border-white shadow"
 					></div>
 
 					<div
@@ -197,8 +188,8 @@
 		70% {
 			box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
 		}
-		200% {
-			box-shadow: 0 0 0 0 rgba(82, 35, 192, 0);
+		100% {
+			box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
 		}
 	}
 
