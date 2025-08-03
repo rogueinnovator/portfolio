@@ -7,7 +7,8 @@
 
 	// Props
 	export let project: Project;
-	
+	console.log(project, 'This is projecta');
+
 	// Local state
 	let isHovered = false;
 	let cardElement: HTMLElement;
@@ -103,9 +104,9 @@
 				</svg>
 			</a>
 			<button
-				on:click={() => project.URL.includes('github.com') && window.open(project.URL, '_blank')}
+				on:click={() => project.URL?.includes('github.com') && window.open(project.URL, '_blank')}
 				class="text-gray-400 hover:text-white transition-colors duration-300"
-				class:pointer-events-none={!project.URL.includes('github.com')}
+				class:pointer-events-none={!project.URL?.includes('github.com')}
 				aria-label="GitHub Repository"
 			>
 				<i class="fa-brands fa-github text-lg"></i>
