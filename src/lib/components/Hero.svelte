@@ -3,6 +3,7 @@
 	import { fadeInUp, fadeInLeft, fadeInRight, textReveal } from '$lib/animations/gsap';
 	import { browser } from '$app/environment';
 	import { downloadResume, getExperienceDuration } from '$lib/utils';
+	import gsap from 'gsap';
 	// tiles
 	const titles = ['MERN Stack', 'Next js ', 'Web3 Enthusiast', 'Node.js', 'Ethereum'];
 	let currentTitleIndex = 0;
